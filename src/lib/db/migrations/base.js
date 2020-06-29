@@ -15,7 +15,6 @@ exports.up = async function migrationUp(knex) {
 
 	await knex.schema.createTable('monsters', (table) => {
 		table.string('id').notNullable()
-		table.foreign('id').references('humans.id').onDelete('CASCADE')
 		table.text('ping').notNullable()
 		table.boolean('clean').notNullable().defaultTo(false)
 		table.integer('pokemon_id').notNullable()
@@ -42,7 +41,6 @@ exports.up = async function migrationUp(knex) {
 
 	await knex.schema.createTable('raid', (table) => {
 		table.string('id').notNullable()
-		table.foreign('id').references('humans.id').onDelete('CASCADE')
 		table.text('ping').notNullable()
 		table.boolean('clean').notNullable().defaultTo(false)
 		table.integer('pokemon_id').notNullable()
@@ -57,7 +55,6 @@ exports.up = async function migrationUp(knex) {
 
 	await knex.schema.createTable('egg', (table) => {
 		table.string('id').notNullable()
-		table.foreign('id').references('humans.id').onDelete('CASCADE')
 		table.text('ping').notNullable()
 		table.boolean('clean').notNullable().defaultTo(false)
 		table.boolean('exclusive').defaultTo(false)
@@ -70,7 +67,6 @@ exports.up = async function migrationUp(knex) {
 
 	await knex.schema.createTable('quest', (table) => {
 		table.string('id').notNullable()
-		table.foreign('id').references('humans.id').onDelete('CASCADE')
 		table.text('ping').notNullable()
 		table.boolean('clean').notNullable().defaultTo(false)
 		table.integer('reward').notNullable()
@@ -83,7 +79,6 @@ exports.up = async function migrationUp(knex) {
 
 	await knex.schema.createTable('invasion', (table) => {
 		table.string('id').notNullable()
-		table.foreign('id').references('humans.id').onDelete('CASCADE')
 		table.string('ping').notNullable()
 		table.boolean('clean').notNullable().defaultTo(false)
 		table.integer('distance').notNullable()
@@ -95,7 +90,6 @@ exports.up = async function migrationUp(knex) {
 
 	await knex.schema.createTable('weather', (table) => {
 		table.string('id').notNullable()
-		table.foreign('id').references('humans.id').onDelete('CASCADE')
 		table.text('ping').notNullable()
 		table.integer('template').notNullable()
 		table.boolean('clean').notNullable().defaultTo(false)

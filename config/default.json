@@ -17,7 +17,7 @@
         "logSize": 25
     },
     "database": {
-        "client": "sqlite",
+        "client": "mysql",
         "conn": {
             "host": "127.0.0.1",
             "database": "poracle",
@@ -27,7 +27,7 @@
         }
     },
     "locale": {
-        "timeformat": "en-gb",
+        "timeformat": "en-us",
         "time": "LTS",
         "addressFormat": "{{ streetName}} {{ streetNumber }}:",
         "language": "en"
@@ -37,9 +37,9 @@
         "unknownResponse": false,
         "invite": "",
         "token": [],
-        "channels": ["533927791096233984"],
-        "userRole": ["roleId1", "358207117951369217"],
-        "admins": ["222742859059560458"],
+        "channels": [""],
+        "userRole": [""],
+        "admins": [""],
         "prefix": "!",
         "limitSec": 30,
         "limitAmount": 20,
@@ -65,12 +65,12 @@
         "staticProvider": "poracle",
         "geocodingKey":["Your Google Geocoding Key if you Use google as provider"],
         "staticKey":["Your MapQuest or Google Key"],
-        "width": 320,
-        "height": 200,
+        "width": 250,
+        "height": 175,
         "zoom": 15,
-        "spriteHeight": 20,
-        "spriteWidth": 20,
+        "spriteHeight": 35,
+        "spriteWidth": 35,
         "scale": 2,
-        "type": "klokantech-basic"
+        "type": "osm-bright"
       }
 }

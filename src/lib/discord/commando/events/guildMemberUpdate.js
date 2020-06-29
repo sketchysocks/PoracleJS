@@ -23,10 +23,10 @@ module.exports = async (client, oldMember, newMember) => {
 		if (before && !after) {
 			const isRegistered = await client.query.countQuery('humans', { id: oldMember.user.id })
 			if (isRegistered) {
-				await client.query.deleteQuery('egg', { id: oldMember.user.id })
+				/*await client.query.deleteQuery('egg', { id: oldMember.user.id })
 				await client.query.deleteQuery('monsters', { id: oldMember.user.id })
 				await client.query.deleteQuery('raid', { id: oldMember.user.id })
-				await client.query.deleteQuery('quest', { id: oldMember.user.id })
+				await client.query.deleteQuery('quest', { id: oldMember.user.id })*/
 				await client.query.deleteQuery('humans', { id: oldMember.user.id })
 				client.log.log({ level: 'info', message: `unregistered ${oldMember.user.username} because ${roleBefore.name} role removed`, event: 'discord:roleCheck' })
 			}

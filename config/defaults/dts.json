@@ -5,12 +5,20 @@
     "platform": "discord",
     "template": {
       "embed": {
-        "color": "{{ivcolor}}",
-        "title": "{{round iv}}% {{name}} cp:{{cp}} L:{{level}} {{atk}}/{{def}}/{{sta}} {{boostemoji}}",
-        "description": "End: {{time}}, Time left: {{tthm}}m {{tths}}s \n {{addr}} \n quick: {{quickMove}}, charge {{chargeMove}} \n Maps: [Google]({{{mapurl}}}) | [Apple]({{{applemap}}})",
+        "color": "{{color}}",
+        "title": "{{name}} {{round iv}}% {{capitalizeAll city}} for {{tthm}}m {{tths}}s",
+        "description": "{{atk}}/{{ def }}/{{ sta }} | L{{level}} | {{cp}}CP {{{genderData.emoji}}}\n{{#if confirmedTime}}Despawn Timer **Verified** :white_check_mark:{{else}}Timer is **Estimated** :question:{{/if}}\nWeather Boost: {{capitalizeAll boost}} {{boostemoji}}\nMoves: {{quickMove}} | {{chargeMove}}\n{{addr}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}})",
         "thumbnail": {
           "url": "{{{imgUrl}}}"
-        }
+        },
+        "url": "https://www.MAPURLHERE.net/@/{{latitude}}/{{longitude}}/40",
+        "image": {
+        	"url": "{{{staticmap}}}"
+        	},
+        "footer": {
+       	"icon_url": "ICON-URL-HERE",
+       	"text":"Despawns: {{time}} - Time left: {{tthm}}m {{tths}}s"
+       	}
       }
     }
   },
@@ -22,11 +30,19 @@
     "template": {
       "embed": {
         "color": "{{color}}",
-        "title": "?% {{name}} {{boostemoji}}",
-        "description": "Ends: {{time}}, Time left: {{tthm}}m {{tths}}s \n {{addr}} \n Maps: [Google]({{{mapurl}}}) | [Apple]({{{applemap}}})",
+        "title": "{{name}} {{capitalizeAll city}} for {{tthm}}m {{tths}}s",
+        "description": "{{#if confirmedTime}}Despawn Timer **Verified** :white_check_mark:{{else}}Timer is **Estimated** :question:{{/if}}\n{{addr}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}})",
         "thumbnail": {
           "url": "{{{imgUrl}}}"
-        }
+        },
+        "url": "https://www.MAPURLHERE.net/@/{{latitude}}/{{longitude}}/40",
+        "image": {
+        	"url": "{{{staticmap}}}"
+        	},
+        "footer": {
+       	"icon_url": "ICON-URL-HERE",
+       	"text":"Despawns: {{time}} - Time left: {{tthm}}m {{tths}}s"
+       	}
       }
     }
   },
@@ -37,16 +53,26 @@
     "platform": "discord",
     "template": {
       "embed": {
-        "title": "Raid against {{name}} has started at {{gymName}}!",
-        "description": "CP: {{cp}}, quick: {{quickMove}}, charge {{chargeMove}} \n Maps: [Google]({{{mapurl}}}) | [Apple]({{{applemap}}})",
+        "title": "{{name}} (T{{level}}) at {{{gym_name}}}",
+        "description": "Fast Move: {{quickMove}} {{moveEmoji move_1}}\nCharge Move: {{chargeMove}} {{moveEmoji move_2}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}})",
         "color": "{{color}}",
         "thumbnail": {
           "url": "{{{imgUrl}}}"
         },
-        "author": {
-          "name": "{{name}} lvl{{level}}. End: {{time}} in {{tthm}}m {{tths}}s",
-          "icon_url": "{{{detailsurl}}}"
-        }
+        "url": "https://www.MAPURLHERE.net/@/{{latitude}}/{{longitude}}/40",
+        "image": {
+          "url": "{{{staticmap}}}"
+          },
+        "fields": [
+        	{
+       	"name": "Suggested Raid Counters",
+       	"value":"[Provided By Pokebattler](https://www.pokebattler.com/raids/defenders/{{uppercase name}}/levels/RAID_LEVEL_{{level}}/attackers/levels/40/strategies/CINEMATIC_ATTACK_WHEN_POSSIBLE/DEFENSE_RANDOM_MC?sort=ESTIMATOR&weatherCondition=NO_WEATHER&dodgeStrategy=DODGE_REACTION_TIME&aggregation=AVERAGE&randomAssistants=-1&includeLegendary=true&includeShadow=true&attackerTypes=POKEMON_TYPE_ALL&friendLevel=FRIENDSHIP_LEVEL_4)"
+       	}
+       	],
+        "footer": {
+       	"icon_url": "ICON-URL-HERE",
+       	"text":"Available Until {{time}}"
+       	}
       }
     }
   },
@@ -57,16 +83,22 @@
     "platform": "discord",
     "template": {
       "embed": {
-        "title": "Raid egg level{{level}} at {{gymName}}",
-        "description": "Maps: [Google]({{{mapurl}}}) | [Apple]({{{applemap}}})",
+        "title": "T{{level}} Egg at {{{gym_name}}}",
+        "description": "Hatches At {{time}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}})",
         "color": "{{color}}",
         "thumbnail": {
-          "url": "{{{detailsurl}}}"
+          "url": "{{{imgUrl}}}"
         },
-        "author": {
-          "name": "Hatch at: {{time}} in {{tthm}}m {{tths}}s",
-          "icon_url": "{{{imgUrl}}}"
-        }
+        "url": "https://www.MAPURLHERE.net/@/{{latitude}}/{{longitude}}/40",
+        "image": {
+        	"url": "{{{staticmap}}}"
+        	},
+        "fields": [
+        	{
+       	"name": "Current Raid Bosses",
+       	"value":"[Provided By TSR](https://thesilphroad.com/raid-bosses)"
+       	}
+       	]
       }
     }
   },
@@ -77,12 +109,16 @@
     "platform": "discord",
     "template": {
       "embed": {
-        "title": "{{questType}} \n Pokestop Name: {{pokestop_name}}",
-        "url": "{{{mapurl}}}",
+        "title": "{{questType}} \n Pokestop: {{pokestop_name}}",
+        "url": "https://www.MAPURLHERE.net/@/{{latitude}}/{{longitude}}/40",
         "description": "Conditions: {{conditionString}} \n Reward: {{rewardString}} {{monsterNames}} \n {{addr}} \n Maps: [Google]({{{mapurl}}}) | [Apple]({{{applemap}}})",
         "thumbnail": {
           "url": "{{{imgUrl}}}"
-        }
+        },
+        "footer": {
+       	"icon_url": "ICON-URL-HERE",
+       	"text":"Scanned {{now}}"
+       	}
       }
     }
   },
@@ -93,13 +129,31 @@
     "platform": "discord",
     "template": {
       "embed": {
-        "title": "Team Rocket at {{name}}",
-        "url": "{{{mapurl}}}",
+        "title": "{{{name}}}",
+        "url": "https://www.MAPURLHERE.net/@/{{latitude}}/{{longitude}}/40",
+        "description": "{{gruntName}} | {{gruntType}} {{gruntTypeEmoji}}\n{{gruntRewards}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}})",
         "color": "{{gruntTypeColor}}",
-        "description": "Type:  {{gruntType}} {{gruntTypeEmoji}}\nGender: {{genderData.name}}{{genderData.emoji}}\nPossible rewards: {{gruntRewards}}\n Ends: {{time}}, in ({{#if tthh}}{{tthh}}h {{/if}}{{tthm}}m {{tths}}s)\nAddress: {{addr}}\n[Google]({{{mapurl}}}) | [Apple]({{{applemap}}})",
         "thumbnail": {
-          "url": "{{{imgUrl}}}"
-        }
+          "url": "https://raw.githubusercontent.com/sketchysocks/PogoAssets/resized/no_border/i_{{gruntTypeId}}.png"
+        },
+          "author": {
+          "name": "Team Rocket Has Invaded!",
+          "url": "",
+          "icon_url": "https://i.imgur.com/nxWDY6A.png"
+          },
+          "image": {
+          	"url": "{{{staticmap}}}"
+          	},
+        "fields": [
+        	{
+       	"name": "Team Rocket Counters",
+       	"value":"[Provided By Pokebattler](https://www.pokebattler.com/rocket)"
+       	}
+       	],
+        "footer": {
+       	"icon_url": "ICON-URL-HERE",
+       	"text":"Ends: {{time}} in {{tthm}}m {{tths}}s "
+       	}
       }
     }
   },
@@ -122,36 +176,32 @@
     "platform": "discord",
     "template": {
       "embed": {
-        "title": "Welcome",
-        "description": "Thank you for registering \nPlease set a location `{{prefix}}location name of place` or add ares where to receive alarms from",
+        "title": "Hello!",
+        "description": "Thank you for registering \nPlease set a location `{{prefix}}location *street address + zip*` or add areas `{{prefix}}area add *name of area*` where to receive alarms from",
         "fields": [
           {
-            "name": "General commands",
-            "value": "`{{prefix}}poracle`: Adds you to database and enables tracking \n`{{prefix}}unregister`: Removes you from tracking \n`{{prefix}}stop`: Temporarily stops alarms \n`{{prefix}}start`: Re-enables alarms \n`{{prefix}}location yourArea`: Searches for yourArea and sets it as your location \n`{{prefix}}area add somePlace`: Sets one or multiple areas where to receive alarms from, areas need to be configured by admin \n`{{prefix}}area remove somePlace`: Removes a configured area \n `{{prefix}}tracked`: Shows you what you are currently configured to be notified about. \n `{{prefix}}help`: Shows this message"
+            "name": "Welcome to Rotom!",
+            "value": "Rotom is an incredibly valuable tool that will transform the way you play the game. It has a learning curve, but with a little time and patience, it will quickly become your best friend. Maps are great and Rotom needs them to run, but instead of constantly checking the map for hundos or rare spawns, wouldn't you rather just receive personalized DM notifications about them? This welcome message will guide you through the very basics of setting up Rotom, but you will need to consult the #rotom-faq channel to get the full list of commands available."
           },
           {
-            "name": "**Basic Examples**",
-            "value": "You probably want to start off with something like these 4 commands. Change the distances (d=metres) to suit yourself. \n `{{prefix}}location 123 Common Road, Town, Region` \n `{{prefix}}track archen axew gible gabite cranidos deino zweilous litwick lampent riolu darumaka unown d1500` \n `{{prefix}}raid timburr litwick d1500` \n `{{prefix}}track everything iv100 d1000`"
+            "name": "Two Types of Tracking:",
+            "value": "Rotom can be used in 1 of 2 ways. It can track by certain areas or by setting a specific location and tracking by specific distances from that point. Areas are easier to setup, but tracking by distance is much more customizable."
           },
           {
-            "name": "Monster tracking commands",
-            "value": "The command needs to include at least one monster and any amount of filters. E.g. \n `{{prefix}}track snorlax lapras d500 iv50 maxiv90 cp1000 level15`: This command would alert you about Snorlax and Lapras within 500 meters of your location, with an IV between 50% - 90%, of at least level 15, and a minimum CP of 1000. \n`{{prefix}}untrack lapras vileplume`: will remove tracking for lapras and vileplume \n See more options and details at [the manual](https://kartuludus.github.io/PoracleJS/#/commands?id=track)"
+            "name": "Tracking by Areas:",
+            "value": "Rotom has pre-determined areas (listed in #rotom-faq or by typing `{{prefix}}area list`) that you assign to yourself using the `{{prefix}}area add [area name]` command. Once you have your areas assigned, you track the Pokemon you want to receive alerts for with the various filters (level, IV, etc.) such as `{{prefix}}track everything iv100` - you will only receive alerts for these Pokemon if they are within the areas that you have signed up for. \nQuick Steps: \n1. `{{prefix}}area add Antarctica` \n2.`{{prefix}}track dratini iv100` \nThis will result in you receieving alerts for all 100% Dratini in the Antarctica area! (Not really, check which areas we cover with `{{prefix}}area list`. \n\n__Benefits:__ \n-easy preset configuration covers entire area \n-don't have to set individual distance on every tracked spawn"
           },
           {
-            "name": "Raid tracking commands",
-            "value": "`{{prefix}}raid snorlax lapras d500 instinct`: Any arguments are optional, this command would alert you about snorlax and lapras raids within 500 meters of your location or inside an added area. The set filters require the Gym to be controlled by team Instinct \n`{{prefix}}raid remove lapras vileplume`: will remove tracking for lapras and vileplume raids"
+            "name": "Tracking by a Specific Location & Distance:",
+            "value": "You set your location using coordinates or a full address (must be found on Google Maps) by typing `{{prefix}}location *street address + zip code here*` This location can be manually changed, but does not automatically move when you do. \nOnce your location is set, you track the Pokemon you want to receive alerts for within a specific distance (in meters) of that location. For example, you could `{{prefix}}track axew d30000` to be alerted of any Axew that spawns within 30,000meters (~20 miles) of you, and `{{prefix}}track everything iv100 d15000` to be alerted of any perfect spawn within 15,000m (~10 miles) of you. \nQuick Steps: \n1. `{{prefix}}location 420 S Orange Ave 02468` \n2. `{{prefix}}track everything iv100 d500` \n3. `{{prefix}}track axew deino litwick d5000` \nThis will result in you receiving alerts for all hundos within 500m of your specified address and alerts of any Axew, Deino, or Litwick within 5000m.\n\n__Benefits:__ \n-customizable by spawn \n-easily able to update location"
           },
           {
-            "name": "Raid egg tracking commands",
-            "value": "`{{prefix}}egg level3 d500 instinct`: Any arguments are optional, this command would alert you about level 3 raid eggs within 500 meters of your location or inside an added area. The set filters require the Gym to be controlled by team Instinct \n`{{prefix}}egg remove level3`: will remove tracking for level 3 raid eggs"
+            "name": "General Commands:",
+            "value": "`{{prefix}}stop`: Temporarily stops DM Alerts \n`{{prefix}}start`: Re-enables DM Alerts \n`{{prefix}}track`: Used for Pokemon tracking, ie. `{{prefix}}track Pikachu iv90` will send you alerts for Pikachus with 90% IVs or higher. It is not necessary to put iv90-100. If you want a ceiling, use `$track Pikachu iv90 maxiv95`\n\n**It is important to put *iv* before the number, otherwise it will not register. Ex: iv100 not 100iv**.\n\n`{{prefix}}egg`: Will alert you about all raid eggs that will hatch soon. \n`{{prefix}}raid`: Used to track raids, ie. `{{prefix}}raid Kyogre` will alert you of all Kyogre raids. \n`{{prefix}}quest`: Will alert you of all specified quests at the time of detection, you will not receive the alerts if the quests have already been populated on the map. \n`{{prefix}}invasion`: Will alert you to all Team Rocket invasions at Pokestops in your area or specified distance. This is a Rotom++ feature only."
           },
           {
-            "name": "Quest tracking commands",
-            "value": "`{{prefix}}quest porygon pikachu rare_candy silver_pinap_berry d500`: Any arguments are optional, this command would alert you about Quests obtainable within 500m of your location with porygon, pikachu, rare candy, or silver pinaps as rewards \n `{{prefix}}quest remove all_items`: Removes tracking for all item based quests. Can also use `all_pokemon` or `stardust`"
-          },
-          {
-            "name": "Invasion tracking commands",
-            "value": "`{{prefix}}invasion d500 dragon mixed`: Any arguments are optional, this command would alert you about Team Rocket Incidents within 500m of your location if the grunt type was mixed or dragon. You can use any pokemon type name.\n `{{prefix}}invasion remove dragon`: Removes tracking for specified Team Rocket Incidents."
+            "name": "Additional Information:",
+            "value": "To view a full list of the available commands while using Rotom or Rotom++, please refer to #rotom-faq or ask us questions in #rotom-support! \n`{{prefix}}help`: Displays this message again!"
           }
         ]
       }
