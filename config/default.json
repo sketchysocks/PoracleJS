@@ -40,7 +40,7 @@
         "channels": [""],
         "userRole": [""],
         "admins": [""],
-        "prefix": "!",
+        "prefix": "$",
         "limitSec": 30,
         "limitAmount": 20,
         "ivColors": [
