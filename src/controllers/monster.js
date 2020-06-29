@@ -25,12 +25,6 @@ class Monster extends Controller {
 		(form = ${data.form} or form = 0) and
 		min_level<=${data.pokemon_level} and
 		max_level>=${data.pokemon_level} and
-		atk<=${data.individual_attack} and
-		def<=${data.individual_defense} and
-		sta<=${data.individual_stamina} and
-		max_atk>=${data.individual_attack} and
-		max_def>=${data.individual_defense} and
-		max_sta>=${data.individual_stamina} and
 		min_weight<=${data.weight} * 1000 and
 		max_weight>=${data.weight} * 1000 `
 
