@@ -2968,8 +2968,8 @@
 	},
 	"weather": {
 		"0": {
-			"name": "",
-			"emoji": ""
+			"name": "None",
+			"emoji": ":rainbow:"
 		},
 		"1": {
 			"name": "sunny",
