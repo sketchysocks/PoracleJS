@@ -173,9 +173,13 @@ class Quest extends Controller {
 				const message = JSON.parse(mustache(view))
 
 				if (cares.ping) {
-					if (!message.content) message.content = cares.ping
-					if (message.content) message.content += cares.ping
-				}
+                                        if (!message.content) {
+                                                message.content = cares.ping;
+                                        } else {
+                                                message.content += cares.ping;
+                                        }
+                                }
+
 				const work = {
 					lat: data.latitude.toString().substring(0, 8),
 					lon: data.longitude.toString().substring(0, 8),
