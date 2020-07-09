@@ -4,6 +4,7 @@ config/locale/*.json
 
 !config/locale/fr.json
 !config/locale/de.json
+!config/locale/rotom.json
 
 !config/default.json
 
