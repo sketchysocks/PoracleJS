@@ -2781,7 +2781,7 @@
 			"second_reward": true,
 			"encounters": {
 				"first": [102, 387],
-				"second": [44, 70],
+				"second": [2, 44, 70],
 				"third": [71, 275]
 			}
 		},
