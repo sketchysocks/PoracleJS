@@ -2744,8 +2744,8 @@
 			"second_reward": true,
 			"encounters": {
 				"first": [37, 58, 228],
-				"second": [5, 38, 229],
-				"third": [5, 59, 229]
+				"second": [38, 229],
+				"third": [59, 229]
 			}
 		},
 		"19": {
@@ -2809,7 +2809,7 @@
 			"encounters": {
 				"first": [459],
 				"second": [459],
-                "third": [131, 460]
+                		"third": [131, 460]
             }
 		},
 		"27": {
@@ -2870,8 +2870,8 @@
 			"gender": 1,
 			"second_reward": true,
 			"encounters": {
-				"first": [96,202],
-				"second": [280],
+				"first": [96, 202],
+				"second": [96, 280],
 				"third": [64, 97, 281]
 			}
 		},
@@ -2956,7 +2956,9 @@
 			"grunt": "",
 			"second_reward": false,
 			"encounters": {
-				"first": [244]
+				"first": [53],
+				"second": [99, 208, 464],
+				"third": [244]
 			}
 		},
 		"45": {
@@ -2967,7 +2969,13 @@
 		"46": {
 			"type": "Decoy",
 			"grunt": "Female Grunt",
-			"gender": 2
+			"gender": 2,
+			"second_reward": false,
+			"encounters": {
+				"first": [69],
+				"second": [20, 70],
+				"third": [20, 143]
+			}
 		},
 		"47": {
 			"type": "Ghost",
