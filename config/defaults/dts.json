@@ -6,7 +6,7 @@
     "template": {
       "embed": {
         "color": "{{color}}",
-        "title": "{{name}} {{round iv}}% {{capitalizeAll city}} for {{tthm}}m {{tths}}s",
+        "title": "{{name}}{{#if id}}{{#is id 201}} {{formname}}{{/is}}{{/if}} {{round iv}}% {{capitalizeAll city}} for {{tthm}}m {{tths}}s",
         "description": "{{atk}}/{{ def }}/{{ sta }} | L{{level}} | {{cp}}CP {{{genderData.emoji}}}\n{{#if confirmedTime}}Despawn Timer **Verified** :white_check_mark:{{else}}Timer is **Estimated** :question:{{/if}}\nWeather Boost: {{capitalizeAll boost}} {{boostemoji}}\nMoves: {{quickMove}} | {{chargeMove}}\n{{addr}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}})",
         "thumbnail": {
           "url": "{{{imgUrl}}}"
@@ -30,7 +30,7 @@
     "template": {
       "embed": {
         "color": "{{color}}",
-        "title": "{{name}} {{capitalizeAll city}} for {{tthm}}m {{tths}}s",
+        "title": "{{name}}{{#if id}}{{#is id 201}} {{formname}}{{/is}}{{/if}} {{capitalizeAll city}} for {{tthm}}m {{tths}}s",
         "description": "{{#if confirmedTime}}Despawn Timer **Verified** :white_check_mark:{{else}}Timer is **Estimated** :question:{{/if}}\n{{addr}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}})",
         "thumbnail": {
           "url": "{{{imgUrl}}}"
@@ -134,12 +134,12 @@
         "description": "{{gruntName}} | {{gruntType}} {{gruntTypeEmoji}}\n{{gruntRewards}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}})",
         "color": "{{gruntTypeColor}}",
         "thumbnail": {
-          "url": "https://raw.githubusercontent.com/sketchysocks/PogoAssets/resized/no_border/i_{{gruntTypeId}}.png"
+          "url": "https://raw.githubusercontent.com/sketchysocks/assets/rockets/{{gruntTypeId}}.png"
         },
           "author": {
           "name": "Team Rocket Has Invaded!",
           "url": "",
-          "icon_url": "https://i.imgur.com/nxWDY6A.png"
+          "icon_url": "https://raw.githubusercontent.com/sketchysocks/assets/rockets/tgr.png"
           },
           "image": {
           	"url": "{{{staticmap}}}"
