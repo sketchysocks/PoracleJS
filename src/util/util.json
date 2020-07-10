@@ -2637,7 +2637,7 @@
 			"second_reward": false,
 			"encounters": {
 				"first": [143],
-				"second": [062, 143, 282],
+				"second": [62, 143, 282],
 				"third": [130, 143, 149]
 			}
 		},
@@ -2703,7 +2703,8 @@
 			"encounters": {
 				"first": [147],
 				"second": [148, 330],
-				"third": [148, 149, 371]
+                "third": [148, 149, 371]
+            }
 		},
 		"13": {
 			"type": "Dragon",
@@ -2726,9 +2727,9 @@
 			"gender": 2,
 			"second_reward": false,
 			"encounters": {
-				"first": [106, 107, 066],
+				"first": [106, 107, 66],
 				"second": [107],
-				"third": [067]
+				"third": [67]
 			}
 		},
 		"17": {
@@ -2780,8 +2781,8 @@
 			"second_reward": true,
 			"encounters": {
 				"first": [102, 387],
-				"second": [044, 070],
-				"third": [071, 275]
+				"second": [44, 70],
+				"third": [71, 275]
 			}
 		},
 		"24": {
@@ -2808,7 +2809,8 @@
 			"encounters": {
 				"first": [459],
 				"second": [459],
-				"third": [131, 460]
+                "third": [131, 460]
+            }
 		},
 		"27": {
 			"type": "Ice",
@@ -2836,9 +2838,9 @@
 			"gender": 1,
 			"second_reward": false,
 			"encounters": {
-				"first": [019, 137],
-				"second": [020, 233],
-				"third": [143, 474]
+				"first": [19, 41, 137],
+				"second": [20, 233],
+				"third": [20, 143, 474]
 			}
 		},
 		"32": {
@@ -2847,9 +2849,9 @@
 			"gender": 2,
 			"second_reward": false,
 			"encounters": {
-				"first": [032],
-				"second": [042, 088, 089],
-				"third": [033]
+				"first": [32],
+				"second": [42, 88, 89],
+				"third": [33]
 			}
 		},
 		"33": {
@@ -2868,9 +2870,9 @@
 			"gender": 1,
 			"second_reward": true,
 			"encounters": {
-				"first": [096,202],
+				"first": [96,202],
 				"second": [280],
-				"third": [064, 097, 281]
+				"third": [64, 97, 281]
 			}
 		},
 		"36": {
@@ -2895,9 +2897,9 @@
 			"gender": 2,
 			"second_reward": false,
 			"encounters": {
-				"first": [054, 258],
-				"second": [055, 061],
-				"third": [062, 186]
+				"first": [54, 258],
+				"second": [55, 61],
+				"third": [62, 186]
 			}
 		},
 		"39": {
