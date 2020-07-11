@@ -2843,7 +2843,7 @@
 			"gender": 2,
 			"second_reward": false,
 			"encounters": {
-				"first": [32],
+				"first": [29, 32],
 				"second": [42, 88, 89],
 				"third": [33]
 			}
