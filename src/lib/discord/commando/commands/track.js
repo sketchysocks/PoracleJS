@@ -35,8 +35,6 @@ exports.run = async (client, msg, command) => {
 			// Set defaults
 			let monsters
 			let distance = 0
-			let cp = 0
-			let maxcp = 9000
 			let iv = -1
 			let maxiv = 100
 			let level = 0
@@ -48,8 +46,6 @@ exports.run = async (client, msg, command) => {
 			let maxDef = 15
 			let maxSta = 15
 			let gender = 0
-			let weight = 0
-			let maxweight = 9000000
 			let greatLeague = 4096
 			let greatLeagueCP = 0
 			let ultraLeague = 4096
@@ -83,19 +79,15 @@ exports.run = async (client, msg, command) => {
 				else if (element.match(client.re.greatLeagueCPRe)) greatLeagueCP = element.match(client.re.greatLeagueCPRe)[0].replace(client.translator.translate('greatcp'), '')
 				else if (element.match(client.re.ultraLeagueRe)) ultraLeague = element.match(client.re.ultraLeagueRe)[0].replace(client.translator.translate('ultra'), '')
 				else if (element.match(client.re.ultraLeagueCPRe)) ultraLeagueCP = element.match(client.re.ultraLeagueCPRe)[0].replace(client.translator.translate('ultracp'), '')
-				else if (element.match(client.re.maxcpRe)) maxcp = element.match(client.re.maxcpRe)[0].replace(client.translator.translate('maxcp'), '')
 				else if (element.match(client.re.maxivRe)) maxiv = element.match(client.re.maxivRe)[0].replace(client.translator.translate('maxiv'), '')
-				else if (element.match(client.re.maxweightRe)) maxweight = element.match(client.re.maxweightRe)[0].replace(client.translator.translate('maxweight'), '')
 				else if (element.match(client.re.maxatkRe)) maxAtk = element.match(client.re.maxatkRe)[0].replace(client.translator.translate('maxatk'), '')
 				else if (element.match(client.re.maxdefRe)) maxDef = element.match(client.re.maxdefRe)[0].replace(client.translator.translate('maxdef'), '')
 				else if (element.match(client.re.maxstaRe)) maxSta = element.match(client.re.maxstaRe)[0].replace(client.translator.translate('maxsta'), '')
-				else if (element.match(client.re.cpRe)) cp = element.match(client.re.cpRe)[0].replace(client.translator.translate('cp'), '')
 				else if (element.match(client.re.levelRe)) level = element.match(client.re.levelRe)[0].replace(client.translator.translate('level'), '')
 				else if (element.match(client.re.ivRe)) iv = element.match(client.re.ivRe)[0].replace(client.translator.translate('iv'), '')
 				else if (element.match(client.re.atkRe)) atk = element.match(client.re.atkRe)[0].replace(client.translator.translate('atk'), '')
 				else if (element.match(client.re.defRe)) def = element.match(client.re.defRe)[0].replace(client.translator.translate('def'), '')
 				else if (element.match(client.re.staRe)) sta = element.match(client.re.staRe)[0].replace(client.translator.translate('sta'), '')
-				else if (element.match(client.re.weightRe)) weight = element.match(client.re.weightRe)[0].replace(client.translator.translate('weight'), '')
 				else if (element.match(client.re.dRe)) distance = element.match(client.re.dRe)[0].replace(client.translator.translate('d'), '')
 				else if (element === 'female') gender = 2
 				else if (element === 'clean') clean = true
@@ -109,16 +101,12 @@ exports.run = async (client, msg, command) => {
 				distance,
 				min_iv: iv,
 				max_iv: maxiv,
-				min_cp: cp,
-				max_cp: maxcp,
 				min_level: level,
 				max_level: maxlevel,
 				atk,
 				def,
 				sta,
 				template,
-				min_weight: weight,
-				max_weight: maxweight,
 				form: mon.form.id,
 				max_atk: maxAtk,
 				max_def: maxDef,
