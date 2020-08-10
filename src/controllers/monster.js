@@ -32,8 +32,13 @@ class Monster extends Controller {
 		max_def>=${data.individual_defense} and
 		max_sta>=${data.individual_stamina} and
 		min_weight<=${data.weight} * 1000 and
-		max_weight>=${data.weight} * 1000 `
-
+		max_weight>=${data.weight} * 1000 and
+		great_league_ranking>=${data.bestGreatLeagueRank} and
+		great_league_ranking_min_cp<=${data.bestGreatLeagueRankCP} and 
+		ultra_league_ranking>=${data.bestUltraLeagueRank} and 
+		ultra_league_ranking_min_cp<=${data.bestUltraLeagueRankCP}
+		`
+		
 		if (['pg', 'mysql'].includes(this.config.database.client)) {
 			query = query.concat(`
 			and
