@@ -220,7 +220,7 @@ class Controller {
 				const constraints = {
 					humans: 'id',
 					monsters: 'monsters.id, monsters.pokemon_id, monsters.min_iv, monsters.max_iv, monsters.min_level, monsters.max_level, monsters.atk, monsters.def, monsters.sta, monsters.min_weight, monsters.max_weight, monsters.form, monsters.max_atk, monsters.max_def, monsters.max_sta, monsters.gender',
-					raid: 'raid.id, raid.pokemon_id, raid.exclusive, raid.level, raid.team',
+					raid: 'raid.id, raid.pokemon_id, raid.exclusive, raid.level, raid.team, raid.form',
 					egg: 'egg.id, egg.team, egg.exclusive, egg.level',
 					quest: 'quest.id, quest.reward_type, quest.reward',
 					invasion: 'invasion.id, invasion.gender, invasion.grunt_type',
