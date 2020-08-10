@@ -19,8 +19,6 @@ class Monster extends Controller {
 		pokemon_id=${data.pokemon_id} and
 		min_iv<=${data.iv} and
 		max_iv>=${data.iv} and
-		min_cp<=${data.cp} and
-		max_cp>=${data.cp} and
 		(gender = ${data.gender} or gender = 0) and
 		(form = ${data.form} or form = 0) and
 		min_level<=${data.pokemon_level} and
@@ -31,8 +29,6 @@ class Monster extends Controller {
 		max_atk>=${data.individual_attack} and
 		max_def>=${data.individual_defense} and
 		max_sta>=${data.individual_stamina} and
-		min_weight<=${data.weight} * 1000 and
-		max_weight>=${data.weight} * 1000 and
 		great_league_ranking>=${data.bestGreatLeagueRank} and
 		great_league_ranking_min_cp<=${data.bestGreatLeagueRankCP} and 
 		ultra_league_ranking>=${data.bestUltraLeagueRank} and 
