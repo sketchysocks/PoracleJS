@@ -160,6 +160,32 @@ class Monster extends Controller {
 			data.emoji = e
 			data.emojiString = e.join('')
 
+			data.bestGreatLeagueRank = 9999
+			data.bestGreatLeagueRankCP = 0
+			if (data.pvp_rankings_great_league) {
+				for (const stats of data.pvp_rankings_great_league) {
+					if (stats.rank && stats.rank < data.bestGreatLeagueRank) {
+						data.bestGreatLeagueRank = stats.rank
+						data.bestGreatLeagueRankCP = stats.cp || 0
+					} else if (stats.rank && stats.cp && stats.rank === data.bestGreatLeagueRank && stats.cp > data.bestGreatLeagueRankCP) {
+						data.bestGreatLeagueRankCP = stats.cp
+					}
+				}
+			}
+
+			data.bestUltraLeagueRank = 9999
+			data.bestUltraLeagueRankCP = 0
+			if (data.pvp_rankings_ultra_league) {
+				for (const stats of data.pvp_rankings_ultra_league) {
+					if (stats.rank && stats.rank < data.bestUltraLeagueRank) {
+						data.bestUltraLeagueRank = stats.rank
+						data.bestUltraLeagueRankCP = stats.cp || 0
+					} else if (stats.rank && stats.cp && stats.rank === data.bestUltraLeagueRank && stats.cp > data.bestUltraLeagueRankCP) {
+						data.bestUltraLeagueRankCP = stats.cp
+					}
+				}
+			}
+
 			data.staticSprite = encodeURI(JSON.stringify([
 				{
 					url: data.imgUrl,
