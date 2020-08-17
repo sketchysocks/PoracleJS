@@ -26,7 +26,9 @@ class Monster extends Controller {
 		min_level<=${data.pokemon_level} and
 		max_level>=${data.pokemon_level} and
 		min_weight<=${data.weight} * 1000 and
-		max_weight>=${data.weight} * 1000 `
+		max_weight>=${data.weight} * 1000 and
+		timer<=${data.tth.minutes}
+		`
 
 		if (['pg', 'mysql'].includes(this.config.database.client)) {
 			query = query.concat(`
