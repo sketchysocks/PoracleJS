@@ -36,7 +36,8 @@ class Monster extends Controller {
 		great_league_ranking>=${data.bestGreatLeagueRank} and
 		great_league_ranking_min_cp<=${data.bestGreatLeagueRankCP} and 
 		ultra_league_ranking>=${data.bestUltraLeagueRank} and 
-		ultra_league_ranking_min_cp<=${data.bestUltraLeagueRankCP}
+		ultra_league_ranking_min_cp<=${data.bestUltraLeagueRankCP} and
+		timer<=${data.tth.minutes}
 		`
 		
 		if (['pg', 'mysql'].includes(this.config.database.client)) {
