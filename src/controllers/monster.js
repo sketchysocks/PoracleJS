@@ -161,7 +161,7 @@ class Monster extends Controller {
 			data.emoji = e
 			data.emojiString = e.join('')
 
-			data.bestGreatLeagueRank = 9999
+			data.bestGreatLeagueRank = 4096
 			data.bestGreatLeagueRankCP = 0
 			if (data.pvp_rankings_great_league) {
 				for (const stats of data.pvp_rankings_great_league) {
@@ -174,7 +174,7 @@ class Monster extends Controller {
 				}
 			}
 
-			data.bestUltraLeagueRank = 9999
+			data.bestUltraLeagueRank = 4096
 			data.bestUltraLeagueRankCP = 0
 			if (data.pvp_rankings_ultra_league) {
 				for (const stats of data.pvp_rankings_ultra_league) {
