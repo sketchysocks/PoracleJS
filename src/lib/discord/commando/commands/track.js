@@ -57,6 +57,7 @@ exports.run = async (client, msg, command) => {
 			let ultraLeagueCP = 0
 			let template = 1
 			let clean = false
+			let timer = 0
 			const pings = [...msg.mentions.users.array().map((u) => `<@!${u.id}>`), ...msg.mentions.roles.array().map((r) => `<@&${r.id}>`)].join('')
 
 			// Check for monsters or forms
@@ -98,6 +99,7 @@ exports.run = async (client, msg, command) => {
 				else if (element.match(client.re.staRe)) sta = element.match(client.re.staRe)[0].replace(client.translator.translate('sta'), '')
 				else if (element.match(client.re.weightRe)) weight = element.match(client.re.weightRe)[0].replace(client.translator.translate('weight'), '')
 				else if (element.match(client.re.dRe)) distance = element.match(client.re.dRe)[0].replace(client.translator.translate('d'), '')
+				else if (element.match(client.re.tRe)) timer = element.match(client.re.tRe)[0].replace(client.translator.translate('t'), '')
 				else if (element === 'female') gender = 2
 				else if (element === 'clean') clean = true
 				else if (element === 'male') gender = 1
@@ -130,6 +132,7 @@ exports.run = async (client, msg, command) => {
 				great_league_ranking_min_cp: greatLeagueCP,
 				ultra_league_ranking: ultraLeague,
 				ultra_league_ranking_min_cp: ultraLeagueCP,
+				timer,
 			}))
 			if (!insert.length) {
 				break
