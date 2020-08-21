@@ -54,12 +54,17 @@ class Quest extends Controller {
 
 	async handle(obj) {
 		const data = obj
+		let pregenerateTile = false
 		const minTth = this.config.general.alertMinimumTime || 0
 
 		try {
 			switch (this.config.geocoding.staticProvider.toLowerCase()) {
 				case 'poracle': {
 					data.staticmap = `https://tiles.poracle.world/static/${this.config.geocoding.type}/${+data.latitude.toFixed(5)}/${+data.longitude.toFixed(5)}/${this.config.geocoding.zoom}/${this.config.geocoding.width}/${this.config.geocoding.height}/${this.config.geocoding.scale}/png`
+					break
+				}
+				case 'tileservercache': {
+					pregenerateTile = true
 					break
 				}
 				case 'google': {
@@ -147,6 +152,10 @@ class Quest extends Controller {
 
 			const jobs = []
 
+			if (pregenerateTile) {
+				data.staticmap = await this.tileserverPregen.getPregeneratedTileURL('quest', data)
+			}
+
 			for (const cares of whoCares) {
 				const caresCache = this.getDiscordCache(cares.id).count
 				const view = {
@@ -174,9 +183,9 @@ class Quest extends Controller {
 
 				if (cares.ping) {
                                         if (!message.content) {
-                                                message.content = cares.ping;
+                                                message.content = cares.ping
                                         } else {
-                                                message.content += cares.ping;
+                                                message.content += cares.ping
                                         }
                                 }
 
