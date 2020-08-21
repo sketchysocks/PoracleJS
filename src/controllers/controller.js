@@ -27,7 +27,6 @@ class Controller {
 		this.earthRadius = 6371 * 1000 // m
 		this.weatherController = weatherController
 		this.controllerData = {}
-		this.tileserverPregen = new TileserverPregen()
 	}
 
 	getGeocoder() {

@@ -54,7 +54,6 @@ class Quest extends Controller {
 
 	async handle(obj) {
 		const data = obj
-		let pregenerateTile = false
 		const minTth = this.config.general.alertMinimumTime || 0
 
 		try {
@@ -64,7 +63,7 @@ class Quest extends Controller {
 					break
 				}
 				case 'tileservercache': {
-					data.staticmap = this.config.geocoding.staticProviderURL
+					data.staticmap = `${this.config.geocoding.staticProviderURL}/&lat=${data.latitude}&lon=${data.longitude}&img=${this.config.general.imgUrl}pokemon_icon_${data.pokemon_id.toString().padStart(3, '0')}_${data.form ? data.form.toString() : '00'}.png`
 					break
 				}
 				case 'google': {
@@ -89,6 +88,8 @@ class Quest extends Controller {
 			data.disTime = moment.tz(new Date(), this.config.locale.time, geoTz(data.latitude, data.longitude).toString()).endOf('day')
 			data.tth = moment.preciseDiff(Date.now(), data.disTime.clone().utc(), true)
 			data.imgUrl = `${this.config.general.imgUrl}egg${data.level}.png`
+			data.mapUrl = `${this.config.locale.mapUrl}/@/${data.latitude}/${data.longitude}/18`
+			data.mapIcon = `${this.config.locale.mapIcon}`
 			if (!data.team_id) data.team_id = 0
 			if (data.name) data.gymName = data.name
 			data.teamname = data.team_id ? this.utilData.teams[data.team_id].name : 'Harmony'
@@ -179,9 +180,9 @@ class Quest extends Controller {
 
 				if (cares.ping) {
                                         if (!message.content) {
-                                                message.content = cares.ping
+                                                message.content = cares.ping;
                                         } else {
-                                                message.content += cares.ping
+                                                message.content += cares.ping;
                                         }
                                 }
 

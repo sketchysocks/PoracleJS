@@ -76,7 +76,6 @@ class Monster extends Controller {
 
 
 	async handle(obj) {
-		let pregenerateTile = false
 		const data = obj
 		try {
 			moment.locale(this.config.locale.timeformat)
@@ -88,7 +87,7 @@ class Monster extends Controller {
 					break
 				}
 				case 'tileservercache': {
-					data.staticmap = this.config.geocoding.staticProviderURL
+					data.staticmap = `${this.config.geocoding.staticProviderURL}/&lat=${data.latitude}&lon=${data.longitude}&img=${this.config.general.imgUrl}pokemon_icon_${data.pokemon_id.toString().padStart(3, '0')}_${data.form ? data.form.toString() : '00'}.png`
 					break
 				}
 				case 'google': {
@@ -159,6 +158,8 @@ class Monster extends Controller {
 			data.distime = moment(data.disappear_time * 1000).tz(geoTz(data.latitude, data.longitude).toString()).format(this.config.locale.time)
 			data.gif = pokemonGif(Number(data.pokemon_id))
 			data.imgUrl = `${this.config.general.imgUrl}pokemon_icon_${data.pokemon_id.toString().padStart(3, '0')}_${data.form ? data.form.toString() : '00'}.png`
+			data.mapUrl = `${this.config.locale.mapUrl}/@/${data.latitude}/${data.longitude}/18`
+			data.mapIcon = `${this.config.locale.mapIcon}`
 			const e = []
 			monster.types.forEach((type) => {
 				e.push(this.translator.translate(this.utilData.types[type.name].emoji))

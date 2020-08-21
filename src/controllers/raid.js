@@ -102,7 +102,6 @@ class Raid extends Controller {
 	}
 
 	async handle(obj) {
-		let pregenerateTile = false
 		const data = obj
 		const minTth = this.config.general.alertMinimumTime || 0
 
@@ -113,7 +112,7 @@ class Raid extends Controller {
 					break
 				}
 				case 'tileservercache': {
-					data.staticmap = this.config.geocoding.staticProviderURL
+					data.staticmap = `${this.config.geocoding.staticProviderURL}/&lat=${data.latitude}&lon=${data.longitude}&img=${this.config.general.imgUrl}pokemon_icon_${data.pokemon_id.toString().padStart(3, '0')}_${data.form ? data.form.toString() : '00'}.png`
 					break
 				}
 				case 'google': {
@@ -150,6 +149,8 @@ class Raid extends Controller {
 				if (data.name) data.gymName = data.name ? data.name : ''
 				data.name = this.translator.translate(monster.name)
 				data.imgUrl = `${this.config.general.imgUrl}pokemon_icon_${data.pokemon_id.toString().padStart(3, '0')}_${data.form ? data.form.toString() : '00'}.png`
+				data.mapUrl = `${this.config.locale.mapUrl}/@/${data.latitude}/${data.longitude}/18`
+				data.mapIcon = `${this.config.locale.mapIcon}`
 				const e = []
 				monster.types.forEach((type) => {
 					e.push(this.utilData.types[type.name].emoji)
@@ -202,10 +203,6 @@ class Raid extends Controller {
 
 				const jobs = []
 
-				if (pregenerateTile) {
-					data.staticmap = await this.tileserverPregen.getPregeneratedTileURL('raid', data)
-				}
-
 				for (const cares of whoCares) {
 					const caresCache = this.getDiscordCache(cares.id).count
 
@@ -235,9 +232,9 @@ class Raid extends Controller {
 					const message = JSON.parse(mustache(view))
                                 	if (cares.ping) {
                                         	if (!message.content) {
-                                                	message.content = cares.ping
+                                                	message.content = cares.ping;
                                         	} else {
-                                               		message.content += cares.ping
+                                               		message.content += cares.ping;
                                         	}
                                 	}
 					const work = {
@@ -335,9 +332,9 @@ class Raid extends Controller {
 
 				if (cares.ping) {
                                         if (!message.content) {
-                                                message.content = cares.ping
+                                                message.content = cares.ping;
                                         } else {
-                                                message.content += cares.ping
+                                                message.content += cares.ping;
                                         }
                                 }
 

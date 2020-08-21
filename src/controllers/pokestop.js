@@ -53,7 +53,6 @@ class Pokestop extends Controller {
 
 
 	async handle(obj) {
-		let pregenerateTile = false
 		const data = obj
 		const minTth = this.config.general.monsterMinimumTimeTillHidden || 0
 		// const minTth = this.config.general.alertMinimumTime || 0
@@ -65,7 +64,7 @@ class Pokestop extends Controller {
 					break
 				}
 				case 'tileservercache': {
-					data.staticmap = this.config.geocoding.staticProviderURL
+					data.staticmap = `${this.config.geocoding.staticProviderURL}/&lat=${data.latitude}&lon=${data.longitude}&img=${this.config.general.imgUrl}pokemon_icon_${data.pokemon_id.toString().padStart(3, '0')}_${data.form ? data.form.toString() : '00'}.png`
 					break
 				}
 				case 'google': {
@@ -88,6 +87,8 @@ class Pokestop extends Controller {
 			data.mapurl = `https://www.google.com/maps/search/?api=1&query=${data.latitude},${data.longitude}`
 			data.applemap = `https://maps.apple.com/maps?daddr=${data.latitude},${data.longitude}`
 			data.imgUrl = data.url
+			data.mapUrl = `${this.config.locale.mapUrl}/@/${data.latitude}/${data.longitude}/18`
+			data.mapIcon = `${this.config.locale.mapIcon}`
 
 			const incidentExpiration = data.incident_expiration ? data.incident_expiration : data.incident_expire_timestamp
 			data.tth = moment.preciseDiff(Date.now(), incidentExpiration * 1000, true)
@@ -218,9 +219,9 @@ class Pokestop extends Controller {
 				const message = JSON.parse(mustache(view))
 				if (cares.ping) {
                                         if (!message.content) {
-                                                message.content = cares.ping
+                                                message.content = cares.ping;
                                         } else {
-                                                message.content += cares.ping
+                                                message.content += cares.ping;
                                         }
                                 }
 				const work = {

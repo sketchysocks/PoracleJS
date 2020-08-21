@@ -30,7 +30,9 @@
         "timeformat": "en-us",
         "time": "LTS",
         "addressFormat": "{{ streetName}} {{ streetNumber }}:",
-        "language": "en"
+        "language": "en",
+        "mapUrl": "YOUR_RDM_MAP_URL",
+        "mapIcon": "OPTIONAL_CUSTOM_MAP_ICON_URL"
     },
     "discord": {
         "enabled": true,
