@@ -64,7 +64,7 @@ class Pokestop extends Controller {
 					break
 				}
 				case 'tileservercache': {
-					data.staticmap = `${this.config.geocoding.staticProviderURL}/&lat=${data.latitude}&lon=${data.longitude}&img=${this.config.general.imgUrl}pokemon_icon_${data.pokemon_id.toString().padStart(3, '0')}_${data.form ? data.form.toString() : '00'}.png`
+					data.staticmap = `${this.config.geocoding.staticProviderURL}/&lat=${data.latitude}&lon=${data.longitude}&img=${data.imgUrl}`
 					break
 				}
 				case 'google': {
