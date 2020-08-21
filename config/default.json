@@ -30,7 +30,9 @@
         "timeformat": "en-us",
         "time": "LTS",
         "addressFormat": "{{ streetName}} {{ streetNumber }}:",
-        "language": "en"
+        "language": "en",
+        "mapUrl": "YOUR_RDM_MAP_URL",
+        "mapIcon": "OPTIONAL_CUSTOM_MAP_ICON_URL"
     },
     "discord": {
         "enabled": true,
@@ -62,7 +64,9 @@
 
       "geocoding": {
         "provider": "poracle",
+        "providerURL": "Your Nominatim Server Address",
         "staticProvider": "poracle",
+        "staticProviderURL": "Your TileServerCache Server Address",
         "geocodingKey":["Your Google Geocoding Key if you Use google as provider"],
         "staticKey":["Your MapQuest or Google Key"],
         "width": 250,

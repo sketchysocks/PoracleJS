@@ -37,7 +37,9 @@
       "timeformat": "TIME_FORMAT",
       "time": "TIME_STRING",
       "addressFormat": "ADDRESS_FORMAT",
-      "language": "PORACLE_LANGUAGE"
+      "language": "PORACLE_LANGUAGE",
+      "mapUrl": "YOUR_RDM_MAP_URL",
+      "mapIcon": "OPTIONAL_CUSTOM_MAP_ICON_URL"
     },
 
     "discord": {
@@ -98,7 +100,9 @@
 
     "geocoding": {
       "provider": "GEOCODING_PROVIDER",
+      "providerURL": "GEOCODING_PROVIDER_URL",
       "staticProvider": "STATIC_PROVIDER",
+      "staticProviderURL": "STATIC_PROVIDER_URL",
       "geocodingKey":{
         "__name": "GEOCODING_KEYS",
         "__format": "json"

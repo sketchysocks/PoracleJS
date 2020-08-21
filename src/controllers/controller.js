@@ -11,7 +11,6 @@ const emojiFlags = require('emoji-flags')
 
 const { log } = require('../lib/logger')
 
-
 class Controller {
 	constructor(db, config, dts, geofence, monsterData, discordCache, translator, mustache, weatherController) {
 		this.db = db
@@ -35,7 +34,14 @@ class Controller {
 			case 'poracle': {
 				return NodeGeocoder({
 					provider: 'openstreetmap',
-					osmServer: 'http://192.168.1.227:7070',
+					osmServer: 'https://geocoding.poracle.world/nominatim/',
+					formatterPattern: this.config.locale.addressformat,
+				})
+			}
+			case 'nominatim': {
+				return NodeGeocoder({
+					provider: 'openstreetmap',
+					osmServer: this.config.geocoding.providerURL,
 					formatterPattern: this.config.locale.addressformat,
 				})
 			}
