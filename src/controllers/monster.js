@@ -32,8 +32,14 @@ class Monster extends Controller {
 		max_def>=${data.individual_defense} and
 		max_sta>=${data.individual_stamina} and
 		min_weight<=${data.weight} * 1000 and
-		max_weight>=${data.weight} * 1000 `
-
+		max_weight>=${data.weight} * 1000 and
+		great_league_ranking>=${data.bestGreatLeagueRank} and
+		great_league_ranking_min_cp<=${data.bestGreatLeagueRankCP} and 
+		ultra_league_ranking>=${data.bestUltraLeagueRank} and 
+		ultra_league_ranking_min_cp<=${data.bestUltraLeagueRankCP} and
+		timer<=${data.tth.minutes}
+		`
+		
 		if (['pg', 'mysql'].includes(this.config.database.client)) {
 			query = query.concat(`
 			and
@@ -78,6 +84,10 @@ class Monster extends Controller {
 			switch (this.config.geocoding.staticProvider.toLowerCase()) {
 				case 'poracle': {
 					data.staticmap = `https://tiles.poracle.world/static/${this.config.geocoding.type}/${+data.latitude.toFixed(5)}/${+data.longitude.toFixed(5)}/${this.config.geocoding.zoom}/${this.config.geocoding.width}/${this.config.geocoding.height}/${this.config.geocoding.scale}/png`
+					break
+				}
+				case 'tileservercache': {
+					data.staticmap = `${this.config.geocoding.staticProviderURL}`
 					break
 				}
 				case 'google': {
@@ -142,18 +152,47 @@ class Monster extends Controller {
 			data.gameweatheremoji = this.utilData.weather[weather] ? this.translator.translate(this.utilData.weather[weather].emoji) : ''
 			data.applemap = `https://maps.apple.com/maps?daddr=${data.latitude},${data.longitude}`
 			data.mapurl = `https://www.google.com/maps/search/?api=1&query=${data.latitude},${data.longitude}`
+			data.waze = `https://www.waze.com/sl/livemap/directions?latlng=${data.latitude}%2C${data.longitude}`
 			data.color = monster.types[0].color
 			data.ivcolor = this.findIvColor(data.iv)
 			data.tth = moment.preciseDiff(Date.now(), data.disappear_time * 1000, true)
 			data.distime = moment(data.disappear_time * 1000).tz(geoTz(data.latitude, data.longitude).toString()).format(this.config.locale.time)
 			data.gif = pokemonGif(Number(data.pokemon_id))
 			data.imgUrl = `${this.config.general.imgUrl}pokemon_icon_${data.pokemon_id.toString().padStart(3, '0')}_${data.form ? data.form.toString() : '00'}.png`
+			data.mapUrl = `${this.config.locale.mapUrl}/@/${data.latitude}/${data.longitude}/18`
+			data.mapIcon = `${this.config.locale.mapIcon}`
 			const e = []
 			monster.types.forEach((type) => {
 				e.push(this.translator.translate(this.utilData.types[type.name].emoji))
 			})
 			data.emoji = e
 			data.emojiString = e.join('')
+
+			data.bestGreatLeagueRank = 4096
+			data.bestGreatLeagueRankCP = 0
+			if (data.pvp_rankings_great_league) {
+				for (const stats of data.pvp_rankings_great_league) {
+					if (stats.rank && stats.rank < data.bestGreatLeagueRank) {
+						data.bestGreatLeagueRank = stats.rank
+						data.bestGreatLeagueRankCP = stats.cp || 0
+					} else if (stats.rank && stats.cp && stats.rank === data.bestGreatLeagueRank && stats.cp > data.bestGreatLeagueRankCP) {
+						data.bestGreatLeagueRankCP = stats.cp
+					}
+				}
+			}
+
+			data.bestUltraLeagueRank = 4096
+			data.bestUltraLeagueRankCP = 0
+			if (data.pvp_rankings_ultra_league) {
+				for (const stats of data.pvp_rankings_ultra_league) {
+					if (stats.rank && stats.rank < data.bestUltraLeagueRank) {
+						data.bestUltraLeagueRank = stats.rank
+						data.bestUltraLeagueRankCP = stats.cp || 0
+					} else if (stats.rank && stats.cp && stats.rank === data.bestUltraLeagueRank && stats.cp > data.bestUltraLeagueRankCP) {
+						data.bestUltraLeagueRankCP = stats.cp
+					}
+				}
+			}
 
 			data.staticSprite = encodeURI(JSON.stringify([
 				{
@@ -252,9 +291,9 @@ class Monster extends Controller {
 
 				if (cares.ping) {
                                         if (!message.content) {
-                                                message.content = cares.ping;
+                                                message.content = cares.ping
                                         } else {
-                                                message.content += cares.ping;
+                                                message.content += cares.ping
                                         }
                                 }
 				

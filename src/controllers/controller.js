@@ -11,7 +11,6 @@ const emojiFlags = require('emoji-flags')
 
 const { log } = require('../lib/logger')
 
-
 class Controller {
 	constructor(db, config, dts, geofence, monsterData, discordCache, translator, mustache, weatherController) {
 		this.db = db
@@ -35,7 +34,14 @@ class Controller {
 			case 'poracle': {
 				return NodeGeocoder({
 					provider: 'openstreetmap',
-					osmServer: 'http://192.168.1.227:7070',
+					osmServer: 'https://geocoding.poracle.world/nominatim/',
+					formatterPattern: this.config.locale.addressformat,
+				})
+			}
+			case 'nominatim': {
+				return NodeGeocoder({
+					provider: 'openstreetmap',
+					osmServer: this.config.geocoding.providerURL,
 					formatterPattern: this.config.locale.addressformat,
 				})
 			}
@@ -219,8 +225,8 @@ class Controller {
 			default: {
 				const constraints = {
 					humans: 'id',
-					monsters: 'monsters.id, monsters.pokemon_id, monsters.min_iv, monsters.max_iv, monsters.min_level, monsters.max_level, monsters.atk, monsters.def, monsters.sta, monsters.min_weight, monsters.max_weight, monsters.form, monsters.max_atk, monsters.max_def, monsters.max_sta, monsters.gender',
-					raid: 'raid.id, raid.pokemon_id, raid.exclusive, raid.level, raid.team',
+					monsters: 'monsters.id, monsters.pokemon_id, monsters.min_iv, monsters.max_iv, monsters.min_level, monsters.max_level, monsters.atk, monsters.def, monsters.sta, monsters.form, monsters.gender, monsters.great_league_ranking, monsters.great_league_ranking_min_cp, monsters.ultra_league_ranking, monsters.ultra_league_ranking_min_cp, timer',
+					raid: 'raid.id, raid.pokemon_id, raid.exclusive, raid.level, raid.team, raid.form',
 					egg: 'egg.id, egg.team, egg.exclusive, egg.level',
 					quest: 'quest.id, quest.reward_type, quest.reward',
 					invasion: 'invasion.id, invasion.gender, invasion.grunt_type',

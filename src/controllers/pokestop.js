@@ -63,6 +63,10 @@ class Pokestop extends Controller {
 					data.staticmap = `https://tiles.poracle.world/static/${this.config.geocoding.type}/${+data.latitude.toFixed(5)}/${+data.longitude.toFixed(5)}/${this.config.geocoding.zoom}/${this.config.geocoding.width}/${this.config.geocoding.height}/${this.config.geocoding.scale}/png`
 					break
 				}
+				case 'tileservercache': {
+					data.staticmap = `${this.config.geocoding.staticProviderURL}`
+					break
+				}
 				case 'google': {
 					data.staticmap = `https://maps.googleapis.com/maps/api/staticmap?center=${data.latitude},${data.longitude}&markers=color:red|${data.latitude},${data.longitude}&maptype=${this.config.geocoding.type}&zoom=${this.config.geocoding.zoom}&size=${this.config.geocoding.width}x${this.config.geocoding.height}&key=${this.config.geocoding.staticKey[~~(this.config.geocoding.staticKey.length * Math.random())]}`
 					break
@@ -82,7 +86,10 @@ class Pokestop extends Controller {
 
 			data.mapurl = `https://www.google.com/maps/search/?api=1&query=${data.latitude},${data.longitude}`
 			data.applemap = `https://maps.apple.com/maps?daddr=${data.latitude},${data.longitude}`
+			data.waze = `https://www.waze.com/sl/livemap/directions?latlng=${data.latitude}%2C${data.longitude}`
 			data.imgUrl = data.url
+			data.mapUrl = `${this.config.locale.mapUrl}/@/${data.latitude}/${data.longitude}/18`
+			data.mapIcon = `${this.config.locale.mapIcon}`
 
 			const incidentExpiration = data.incident_expiration ? data.incident_expiration : data.incident_expire_timestamp
 			data.tth = moment.preciseDiff(Date.now(), incidentExpiration * 1000, true)
@@ -213,9 +220,9 @@ class Pokestop extends Controller {
 				const message = JSON.parse(mustache(view))
 				if (cares.ping) {
                                         if (!message.content) {
-                                                message.content = cares.ping;
+                                                message.content = cares.ping
                                         } else {
-                                                message.content += cares.ping;
+                                                message.content += cares.ping
                                         }
                                 }
 				const work = {
