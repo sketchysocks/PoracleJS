@@ -88,7 +88,7 @@ class Monster extends Controller {
 					break
 				}
 				case 'tileservercache': {
-					pregenerateTile = true
+					data.staticmap = this.config.geocoding.staticProviderURL
 					break
 				}
 				case 'google': {
@@ -230,10 +230,6 @@ class Monster extends Controller {
 			const geoResult = await this.getAddress({ lat: data.latitude, lon: data.longitude })
 
 			const jobs = []
-
-			if (pregenerateTile) {
-				data.staticmap = await this.tileserverPregen.getPregeneratedTileURL('monster', data)
-			}
 
 			for (const cares of whoCares) {
 				const caresCache = this.getDiscordCache(cares.id).count

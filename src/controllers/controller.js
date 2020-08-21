@@ -11,8 +11,6 @@ const emojiFlags = require('emoji-flags')
 
 const { log } = require('../lib/logger')
 
-const TileserverPregen = require('../lib/tileserverPregen')
-
 class Controller {
 	constructor(db, config, dts, geofence, monsterData, discordCache, translator, mustache, weatherController) {
 		this.db = db
