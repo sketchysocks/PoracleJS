@@ -7,13 +7,13 @@
     "embed": {
       "color": "{{color}}",
       "title": "{{name}}{{#if id}}{{#is id 201}} {{formname}}{{/is}}{{/if}} {{round iv}}% {{capitalizeAll areas}} for {{tthm}}m {{tths}}s",
-      "description": "{{atk}}/{{ def }}/{{ sta }} | L{{level}} | {{cp}}CP {{{genderData.emoji}}}\n{{#if confirmedTime}}Despawn Timer **Verified** :white_check_mark:{{else}}Timer is **Estimated** :question:{{/if}}\nWeather Boost: {{capitalizeAll boost}} {{boostemoji}}\nMoves: {{quickMove}} | {{chargeMove}}\n\n{{#if pvp_rankings_great_league}}**Great League:**\n{{#each pvp_rankings_great_league}}- {{pokemonName this.pokemon}} #{{this.rank}} @{{this.cp}}CP (Lvl. {{this.level}})\n{{/each}}{{/if}}\n{{#if pvp_rankings_ultra_league}}**Ultra League:**\n{{#each pvp_rankings_ultra_league}}- {{pokemonName this.pokemon}} #{{this.rank}} @{{this.cp}}CP (Lvl. {{this.level}})\n{{/each}}{{/if}}\n{{addr}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}})",
+      "description": "{{atk}}/{{ def }}/{{ sta }} | L{{level}} | {{cp}}CP {{{genderData.emoji}}}\n{{#if confirmedTime}}Despawn Timer **Verified** :white_check_mark:{{else}}Timer is **Estimated** :question:{{/if}}\nWeather Boost: {{capitalizeAll boost}} {{boostemoji}}\nMoves: {{quickMove}} | {{chargeMove}}\n\n{{#if pvp_rankings_great_league}}**Great League:**\n{{#each pvp_rankings_great_league}}- {{pokemonName this.pokemon}} #{{this.rank}} @{{this.cp}}CP (Lvl. {{this.level}})\n{{/each}}{{/if}}\n{{#if pvp_rankings_ultra_league}}**Ultra League:**\n{{#each pvp_rankings_ultra_league}}- {{pokemonName this.pokemon}} #{{this.rank}} @{{this.cp}}CP (Lvl. {{this.level}})\n{{/each}}{{/if}}\n{{addr}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}}) | [Waze]({{{waze}}})",
       "thumbnail": {
         "url": "{{{imgUrl}}}"
       },
       "url": "{{{mapUrl}}}",
       "image": {
-        "url": "{{{staticmap}}}"
+        "url": "{{{staticmap}}}/staticmap/pokemon.json?&lat={{latitude}}&lon={{longitude}}&img={{{imgUrl}}}"
         },
       "footer": {
        "icon_url": "{{{mapIcon}}}",
@@ -31,13 +31,13 @@
     "embed": {
       "color": "{{color}}",
       "title": "{{name}}{{#if id}}{{#is id 201}} {{formname}}{{/is}}{{/if}} {{round iv}}% {{capitalizeAll areas}} for {{tthm}}m {{tths}}s",
-      "description": "{{atk}}/{{ def }}/{{ sta }} | L{{level}} | {{cp}}CP {{{genderData.emoji}}}\n{{#if confirmedTime}}Despawn Timer **Verified** :white_check_mark:{{else}}Timer is **Estimated** :question:{{/if}}\nWeather Boost: {{capitalizeAll boost}} {{boostemoji}}\nMoves: {{quickMove}} | {{chargeMove}}\n{{addr}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}})",
+      "description": "{{atk}}/{{ def }}/{{ sta }} | L{{level}} | {{cp}}CP {{{genderData.emoji}}}\n{{#if confirmedTime}}Despawn Timer **Verified** :white_check_mark:{{else}}Timer is **Estimated** :question:{{/if}}\nWeather Boost: {{capitalizeAll boost}} {{boostemoji}}\nMoves: {{quickMove}} | {{chargeMove}}\n{{addr}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}}) | [Waze]({{{waze}}})",
       "thumbnail": {
         "url": "{{{imgUrl}}}"
       },
       "url": "{{{mapUrl}}}",
       "image": {
-        "url": "{{{staticmap}}}"
+        "url": "{{{staticmap}}}/staticmap/pokemon.json?&lat={{latitude}}&lon={{longitude}}&img={{{imgUrl}}}"
         },
       "footer": {
        "icon_url": "{{{mapIcon}}}",
@@ -55,13 +55,13 @@
     "embed": {
       "color": "{{color}}",
       "title": "{{name}}{{#if id}}{{#is id 201}} {{formname}}{{/is}}{{/if}} {{capitalizeAll areas}} for {{tthm}}m {{tths}}s",
-      "description": "{{#if confirmedTime}}Despawn Timer **Verified** :white_check_mark:{{else}}Timer is **Estimated** :question:{{/if}}\n{{addr}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}})",
+      "description": "{{#if confirmedTime}}Despawn Timer **Verified** :white_check_mark:{{else}}Timer is **Estimated** :question:{{/if}}\n{{addr}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}}) | [Waze]({{{waze}}})",
       "thumbnail": {
         "url": "{{{imgUrl}}}"
       },
       "url": "{{{mapUrl}}}",
       "image": {
-        "url": "{{{staticmap}}}"
+        "url": "{{{staticmap}}}/staticmap/pokemon.json?&lat={{latitude}}&lon={{longitude}}&img={{{imgUrl}}}"
         },
       "footer": {
        "icon_url": "{{{mapIcon}}}",
@@ -78,14 +78,14 @@
   "template": {
     "embed": {
       "title": "{{name}} (T{{level}}) at {{{gym_name}}}",
-      "description": "Fast Move: {{quickMove}} {{moveEmoji move_1}}\nCharge Move: {{chargeMove}} {{moveEmoji move_2}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}})",
+      "description": "Fast Move: {{quickMove}} {{moveEmoji move_1}}\nCharge Move: {{chargeMove}} {{moveEmoji move_2}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}}) | [Waze]({{{waze}}})",
       "color": "{{color}}",
       "thumbnail": {
         "url": "{{{imgUrl}}}"
       },
       "url": "{{{mapUrl}}}",
       "image": {
-        "url": "{{{staticmap}}}"
+        "url": "{{{staticmap}}}/staticmap/pokemon.json?&lat={{latitude}}&lon={{longitude}}&img={{{imgUrl}}}"
         },
       "fields": [
         {
@@ -108,14 +108,14 @@
   "template": {
     "embed": {
       "title": "T{{level}} Egg at {{{gym_name}}}",
-      "description": "Hatches At {{time}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}})",
+      "description": "Hatches At {{time}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}}) | [Waze]({{{waze}}})",
       "color": "{{color}}",
       "thumbnail": {
         "url": "{{{imgUrl}}}"
       },
       "url": "{{{mapUrl}}}",
       "image": {
-        "url": "{{{staticmap}}}"
+        "url": "{{{staticmap}}}/staticmap/pokemon.json?&lat={{latitude}}&lon={{longitude}}&img={{{imgUrl}}}"
         },
       "fields": [
         {
@@ -135,12 +135,12 @@
     "embed": {
       "title": "{{questType}} \n Pokestop: {{pokestop_name}}",
       "url": "{{{mapUrl}}}",
-      "description": "Conditions: {{conditionString}} \n Reward: {{rewardString}} {{monsterNames}} \n {{addr}} \n Maps: [Google]({{{mapurl}}}) | [Apple]({{{applemap}}})",
+      "description": "Conditions: {{conditionString}} \n Reward: {{rewardString}} {{monsterNames}} \n {{addr}} \n Maps: [Google]({{{mapurl}}}) | [Apple]({{{applemap}}}) | [Waze]({{{waze}}})",
       "thumbnail": {
         "url": "{{{imgUrl}}}"
       },
                       "image": {
-        "url": "{{{staticmap}}}"
+        "url": "{{{staticmap}}}/staticmap/pokemon.json?&lat={{latitude}}&lon={{longitude}}&img={{{imgUrl}}}"
         },
       "footer": {
        "icon_url": "{{{mapIcon}}}",
@@ -158,7 +158,7 @@
     "embed": {
       "title": "{{{name}}}",
       "url": "{{{mapUrl}}}",
-      "description": "{{gruntName}} | {{gruntType}} {{gruntTypeEmoji}}\n{{gruntRewards}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}})",
+      "description": "{{gruntName}} | {{gruntType}} {{gruntTypeEmoji}}\n{{gruntRewards}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}}) | [Waze]({{{waze}}})",
       "color": "{{gruntTypeColor}}",
       "thumbnail": {
         "url": "{{{imgUrl}}}"
@@ -169,7 +169,7 @@
         "icon_url": "https://raw.githubusercontent.com/sketchysocks/assets/master/rockets/tgr.png"
         },
         "image": {
-          "url": "http://ts.flomap.net/staticmap/pokemon.json?img=https://raw.githubusercontent.com/sketchysocks/assets/master/rockets/{{gruntTypeId}}.png&lat={{latitude}}&lon={{longitude}}"
+          "url": "{{{staticmap}}}/staticmap/pokemon.json?&lat={{latitude}}&lon={{longitude}}&img=https://raw.githubusercontent.com/sketchysocks/assets/master/rockets/{{gruntTypeId}}.png"
           },
       "fields": [
         {

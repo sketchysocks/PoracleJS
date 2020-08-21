@@ -53,7 +53,6 @@ class Pokestop extends Controller {
 
 
 	async handle(obj) {
-		let pregenerateTile = false
 		const data = obj
 		const minTth = this.config.general.monsterMinimumTimeTillHidden || 0
 		// const minTth = this.config.general.alertMinimumTime || 0
@@ -65,7 +64,7 @@ class Pokestop extends Controller {
 					break
 				}
 				case 'tileservercache': {
-					pregenerateTile = true
+					data.staticmap = `${this.config.geocoding.staticProviderURL}`
 					break
 				}
 				case 'google': {
@@ -194,10 +193,6 @@ class Pokestop extends Controller {
 
 			const geoResult = await this.getAddress({ lat: data.latitude, lon: data.longitude })
 			const jobs = []
-
-			if (pregenerateTile) {
-				data.staticmap = await this.tileserverPregen.getPregeneratedTileURL('pokestop', data)
-			}
 
 			for (const cares of whoCares) {
 				const caresCache = this.getDiscordCache(cares.id).count
