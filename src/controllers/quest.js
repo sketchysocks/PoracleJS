@@ -53,6 +53,7 @@ class Quest extends Controller {
 	}
 
 	async handle(obj) {
+		let pregenerateTile = false
 		const data = obj
 		const minTth = this.config.general.alertMinimumTime || 0
 
@@ -63,7 +64,7 @@ class Quest extends Controller {
 					break
 				}
 				case 'tileservercache': {
-					data.staticmap = `${this.config.geocoding.staticProviderURL}/&lat=${data.latitude}&lon=${data.longitude}&img=${data.imgUrl}`
+					pregenerateTile = true
 					break
 				}
 				case 'google': {
@@ -85,6 +86,7 @@ class Quest extends Controller {
 
 			data.mapurl = `https://www.google.com/maps/search/?api=1&query=${data.latitude},${data.longitude}`
 			data.applemap = `https://maps.apple.com/maps?daddr=${data.latitude},${data.longitude}`
+			data.waze = `https://www.waze.com/sl/livemap/directions?latlng=${data.latitude}%2C${data.longitude}`
 			data.disTime = moment.tz(new Date(), this.config.locale.time, geoTz(data.latitude, data.longitude).toString()).endOf('day')
 			data.tth = moment.preciseDiff(Date.now(), data.disTime.clone().utc(), true)
 			data.imgUrl = `${this.config.general.imgUrl}egg${data.level}.png`
@@ -153,6 +155,10 @@ class Quest extends Controller {
 
 			const jobs = []
 
+			if (pregenerateTile) {
+				data.staticmap = await this.tileserverPregen.getPregeneratedTileURL('quest', data)
+			}
+
 			for (const cares of whoCares) {
 				const caresCache = this.getDiscordCache(cares.id).count
 				const view = {
@@ -180,9 +186,9 @@ class Quest extends Controller {
 
 				if (cares.ping) {
                                         if (!message.content) {
-                                                message.content = cares.ping;
+                                                message.content = cares.ping
                                         } else {
-                                                message.content += cares.ping;
+                                                message.content += cares.ping
                                         }
                                 }
 

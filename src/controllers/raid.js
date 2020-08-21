@@ -112,7 +112,7 @@ class Raid extends Controller {
 					break
 				}
 				case 'tileservercache': {
-					data.staticmap = `${this.config.geocoding.staticProviderURL}/&lat=${data.latitude}&lon=${data.longitude}&img=${data.imgUrl}`
+					pregenerateTile = true
 					break
 				}
 				case 'google': {
@@ -142,6 +142,7 @@ class Raid extends Controller {
 				data.formname = monster.form.name
 				data.mapurl = `https://www.google.com/maps/search/?api=1&query=${data.latitude},${data.longitude}`
 				data.applemap = `https://maps.apple.com/maps?daddr=${data.latitude},${data.longitude}`
+				data.waze = `https://www.waze.com/sl/livemap/directions?latlng=${data.latitude}%2C${data.longitude}`
 				data.tth = moment.preciseDiff(Date.now(), data.end * 1000, true)
 				data.gif = pokemonGif(Number(data.pokemon_id))
 				data.distime = moment(data.end * 1000).tz(geoTz(data.latitude, data.longitude).toString()).format(this.config.locale.time)
@@ -203,6 +204,10 @@ class Raid extends Controller {
 
 				const jobs = []
 
+				if (pregenerateTile) {
+					data.staticmap = await this.tileserverPregen.getPregeneratedTileURL('raid', data)
+				}
+
 				for (const cares of whoCares) {
 					const caresCache = this.getDiscordCache(cares.id).count
 
@@ -232,9 +237,9 @@ class Raid extends Controller {
 					const message = JSON.parse(mustache(view))
                                 	if (cares.ping) {
                                         	if (!message.content) {
-                                                	message.content = cares.ping;
+                                                	message.content = cares.ping
                                         	} else {
-                                               		message.content += cares.ping;
+                                               		message.content += cares.ping
                                         	}
                                 	}
 					const work = {
@@ -303,6 +308,10 @@ class Raid extends Controller {
 
 			const jobs = []
 
+			if (pregenerateTile) {
+				data.staticmap = await this.tileserverPregen.getPregeneratedTileURL('raid', data)
+			}
+
 			for (const cares of whoCares) {
 				const caresCache = this.getDiscordCache(cares.id).count
 				const view = {
@@ -332,9 +341,9 @@ class Raid extends Controller {
 
 				if (cares.ping) {
                                         if (!message.content) {
-                                                message.content = cares.ping;
+                                                message.content = cares.ping
                                         } else {
-                                                message.content += cares.ping;
+                                                message.content += cares.ping
                                         }
                                 }
 

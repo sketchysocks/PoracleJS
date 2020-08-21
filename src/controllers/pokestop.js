@@ -53,6 +53,7 @@ class Pokestop extends Controller {
 
 
 	async handle(obj) {
+		let pregenerateTile = false
 		const data = obj
 		const minTth = this.config.general.monsterMinimumTimeTillHidden || 0
 		// const minTth = this.config.general.alertMinimumTime || 0
@@ -64,7 +65,7 @@ class Pokestop extends Controller {
 					break
 				}
 				case 'tileservercache': {
-					data.staticmap = `${this.config.geocoding.staticProviderURL}/&lat=${data.latitude}&lon=${data.longitude}&img=${data.imgUrl}`
+					pregenerateTile = true
 					break
 				}
 				case 'google': {
@@ -86,6 +87,7 @@ class Pokestop extends Controller {
 
 			data.mapurl = `https://www.google.com/maps/search/?api=1&query=${data.latitude},${data.longitude}`
 			data.applemap = `https://maps.apple.com/maps?daddr=${data.latitude},${data.longitude}`
+			data.waze = `https://www.waze.com/sl/livemap/directions?latlng=${data.latitude}%2C${data.longitude}`
 			data.imgUrl = data.url
 			data.mapUrl = `${this.config.locale.mapUrl}/@/${data.latitude}/${data.longitude}/18`
 			data.mapIcon = `${this.config.locale.mapIcon}`
@@ -193,6 +195,10 @@ class Pokestop extends Controller {
 			const geoResult = await this.getAddress({ lat: data.latitude, lon: data.longitude })
 			const jobs = []
 
+			if (pregenerateTile) {
+				data.staticmap = await this.tileserverPregen.getPregeneratedTileURL('pokestop', data)
+			}
+
 			for (const cares of whoCares) {
 				const caresCache = this.getDiscordCache(cares.id).count
 
@@ -219,9 +225,9 @@ class Pokestop extends Controller {
 				const message = JSON.parse(mustache(view))
 				if (cares.ping) {
                                         if (!message.content) {
-                                                message.content = cares.ping;
+                                                message.content = cares.ping
                                         } else {
-                                                message.content += cares.ping;
+                                                message.content += cares.ping
                                         }
                                 }
 				const work = {

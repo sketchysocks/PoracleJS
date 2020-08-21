@@ -76,6 +76,7 @@ class Monster extends Controller {
 
 
 	async handle(obj) {
+		let pregenerateTile = false
 		const data = obj
 		try {
 			moment.locale(this.config.locale.timeformat)
@@ -87,7 +88,7 @@ class Monster extends Controller {
 					break
 				}
 				case 'tileservercache': {
-					data.staticmap = `${this.config.geocoding.staticProviderURL}/&lat=${data.latitude}&lon=${data.longitude}&img=${data.imgUrl}`
+					pregenerateTile = true
 					break
 				}
 				case 'google': {
@@ -152,6 +153,7 @@ class Monster extends Controller {
 			data.gameweatheremoji = this.utilData.weather[weather] ? this.translator.translate(this.utilData.weather[weather].emoji) : ''
 			data.applemap = `https://maps.apple.com/maps?daddr=${data.latitude},${data.longitude}`
 			data.mapurl = `https://www.google.com/maps/search/?api=1&query=${data.latitude},${data.longitude}`
+			data.waze = `https://www.waze.com/sl/livemap/directions?latlng=${data.latitude}%2C${data.longitude}`
 			data.color = monster.types[0].color
 			data.ivcolor = this.findIvColor(data.iv)
 			data.tth = moment.preciseDiff(Date.now(), data.disappear_time * 1000, true)
@@ -231,6 +233,10 @@ class Monster extends Controller {
 			const geoResult = await this.getAddress({ lat: data.latitude, lon: data.longitude })
 
 			const jobs = []
+
+			if (pregenerateTile) {
+				data.staticmap = await this.tileserverPregen.getPregeneratedTileURL('monster', data)
+			}
 
 			for (const cares of whoCares) {
 				const caresCache = this.getDiscordCache(cares.id).count
