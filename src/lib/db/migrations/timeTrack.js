@@ -14,7 +14,7 @@ exports.up = async function migrationUp(knex) {
 			table.dropForeign(['id'])
 		table.dropUnique(null, 'monsters_tracking')
 		table.unique([
-			'id', 'pokemon_id', 'min_iv', 'max_iv', 'min_level', 'max_level', 'atk', 'def', 'sta', 'form', 'gender', 'min_weight',
+			'id', 'pokemon_id', 'min_iv', 'max_iv', 'min_level', 'max_level', 'atk', 'def', 'sta', 'form', 'gender',
 			'great_league_ranking', 'great_league_ranking_min_cp', 'ultra_league_ranking', 'ultra_league_ranking_min_cp', 'timer'
 		], 'monsters_tracking')
 	})
