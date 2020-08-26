@@ -354,8 +354,8 @@ class Raid extends Controller {
 					jobs.push(work)
 					this.addDiscordCache(cares.id)
 				}
-				return jobs
 			}
+			return jobs
 		} catch (e) {
 			this.log.error('Can\'t seem to handle raid: ', e, data)
 		}
