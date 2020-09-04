@@ -149,7 +149,7 @@ class Raid extends Controller {
 				if (!data.team_id) data.team_id = 0
 				if (data.name) data.gymName = data.name ? data.name : ''
 				data.name = this.translator.translate(monster.name)
-				data.imgUrl = `${this.config.general.imgUrl}pokemon_icon_${data.pokemon_id.toString().padStart(3, '0')}_${data.form ? data.form.toString() : '00'}.png`
+				data.imgUrl = `${this.config.general.imgUrl}pokemon_icon_${this.resolvePokemonIcon(data.pokemon_id, data.form, data.evolution, data.gender == 2, data.costume)}.png`
 				data.mapUrl = `${this.config.locale.mapUrl}/@/${data.latitude}/${data.longitude}/18`
 				data.mapIcon = `${this.config.locale.mapIcon}`
 				const e = []

@@ -111,7 +111,7 @@ class Quest extends Controller {
 			data.itemNames = Object.keys(this.utilData.items).filter((item) => data.rewardData.items.includes(this.utilData.items[item])).map((i) => this.translator.translate(this.utilData.items[i])).join(', ')
 
 			data.imgUrl = data.rewardData.monsters[1]
-				? `${this.config.general.imgUrl}pokemon_icon_${data.rewardData.monsters[1].toString().padStart(3, '0')}_00.png`
+				? `${this.config.general.imgUrl}pokemon_icon_${data.rewardData.icon}.png`
 				: 'https://s3.amazonaws.com/com.cartodb.users-assets.production/production/jonmrich/assets/20150203194453red_pin.png'
 
 			if (data.rewardData.items[1]) {
@@ -225,6 +225,7 @@ class Quest extends Controller {
 			let rewardString = ''
 			let dustAmount = 0
 			let isShiny = 0
+			let icon = ''
 
 			data.rewards.forEach((reward) => {
 				if (reward.type === 2) {
@@ -251,14 +252,14 @@ class Quest extends Controller {
 					const rew = mustache({ pokemon: this.translator.translate(monster.name), emoji, isShiny })
 					monsters.push(reward.info.pokemon_id)
 					rewardString = rewardString.concat(rew)
+					icon = this.resolvePokemonIcon(reward.info.pokemon_id, reward.info.form_id, 0, reward.info.gender_id == 2, reward.info.costume_id, reward.info.shiny)
 				}
 			})
 			resolve({
-				rewardString, monsters, items, dustAmount, isShiny,
+				rewardString, monsters, items, dustAmount, isShiny, icon,
 			})
 		})
 	}
-
 
 	async getConditionString(data) {
 		return new Promise((resolve) => {
