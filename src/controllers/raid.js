@@ -3,6 +3,7 @@ const geoTz = require('geo-tz')
 const moment = require('moment-timezone')
 const Controller = require('./controller')
 const { log } = require('../lib/logger')
+const pokicon = require('../util/pokicon')
 
 class Raid extends Controller {
 	async raidWhoCares(data) {
@@ -149,7 +150,7 @@ class Raid extends Controller {
 				if (!data.team_id) data.team_id = 0
 				if (data.name) data.gymName = data.name ? data.name : ''
 				data.name = this.translator.translate(monster.name)
-				data.imgUrl = `${this.config.general.imgUrl}pokemon_icon_${this.resolvePokemonIcon(data.pokemon_id, data.form, data.evolution, data.gender == 2, data.costume)}.png`
+				data.imgUrl = pokicon(this.config.general.imgUrl, data.pokemon_id, data.form, data.evolution, data.gender == 2, data.costume)
 				data.mapUrl = `${this.config.locale.mapUrl}/@/${data.latitude}/${data.longitude}/18`
 				data.mapIcon = `${this.config.locale.mapIcon}`
 				const e = []

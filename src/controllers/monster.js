@@ -4,6 +4,7 @@ const moment = require('moment-timezone')
 const { S2 } = require('s2-geometry')
 const Controller = require('./controller')
 const { log } = require('../lib/logger')
+const pokicon = require('../util/pokicon')
 require('moment-precise-range-plugin')
 
 class Monster extends Controller {
@@ -158,7 +159,7 @@ class Monster extends Controller {
 			data.tth = moment.preciseDiff(Date.now(), data.disappear_time * 1000, true)
 			data.distime = moment(data.disappear_time * 1000).tz(geoTz(data.latitude, data.longitude).toString()).format(this.config.locale.time)
 			data.gif = pokemonGif(Number(data.pokemon_id))
-			data.imgUrl = `${this.config.general.imgUrl}pokemon_icon_${this.resolvePokemonIcon(data.pokemon_id, data.form, 0, data.gender == 2, data.costume)}.png`
+			data.imgUrl = pokicon(this.config.general.imgUrl, data.pokemon_id, data.form, 0, data.gender == 2, data.costume)
 			data.mapUrl = `${this.config.locale.mapUrl}/@/${data.latitude}/${data.longitude}/18`
 			data.mapIcon = `${this.config.locale.mapIcon}`
 			const e = []

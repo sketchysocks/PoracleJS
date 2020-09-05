@@ -3,6 +3,7 @@ const geoTz = require('geo-tz')
 const moment = require('moment-timezone')
 const Controller = require('./controller')
 const { log } = require('../lib/logger')
+const pokicon = require('../util/pokicon')
 
 class Quest extends Controller {
 	async questWhoCares(data) {
@@ -111,7 +112,7 @@ class Quest extends Controller {
 			data.itemNames = Object.keys(this.utilData.items).filter((item) => data.rewardData.items.includes(this.utilData.items[item])).map((i) => this.translator.translate(this.utilData.items[i])).join(', ')
 
 			data.imgUrl = data.rewardData.monsters[1]
-				? `${this.config.general.imgUrl}pokemon_icon_${data.rewardData.icon}.png`
+				? data.rewardData.icon
 				: 'https://s3.amazonaws.com/com.cartodb.users-assets.production/production/jonmrich/assets/20150203194453red_pin.png'
 
 			if (data.rewardData.items[1]) {
@@ -252,7 +253,7 @@ class Quest extends Controller {
 					const rew = mustache({ pokemon: this.translator.translate(monster.name), emoji, isShiny })
 					monsters.push(reward.info.pokemon_id)
 					rewardString = rewardString.concat(rew)
-					icon = this.resolvePokemonIcon(reward.info.pokemon_id, reward.info.form_id, 0, reward.info.gender_id == 2, reward.info.costume_id, reward.info.shiny)
+					icon = pokicon(this.config.general.imgUrl, reward.info.pokemon_id, reward.info.form_id, 0, reward.info.gender_id == 2, reward.info.costume_id, reward.info.shiny)
 				}
 			})
 			resolve({
