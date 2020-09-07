@@ -32,7 +32,6 @@ async function pokicon(baseUrl, pokemonId, form = 0, evolution = 0, female = fal
     try {
         if (availablePokemon[baseUrl] === undefined) {
             const response = await axios.get(`${baseUrl}/index.json`)
-            console.log(response)
             availablePokemon[baseUrl] = new Set(response.data)
         }
     } finally {
