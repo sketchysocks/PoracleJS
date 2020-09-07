@@ -159,7 +159,7 @@ class Monster extends Controller {
 			data.tth = moment.preciseDiff(Date.now(), data.disappear_time * 1000, true)
 			data.distime = moment(data.disappear_time * 1000).tz(geoTz(data.latitude, data.longitude).toString()).format(this.config.locale.time)
 			data.gif = pokemonGif(Number(data.pokemon_id))
-			data.imgUrl = pokicon(this.config.general.imgUrl, data.pokemon_id, data.form, 0, data.gender, data.costume)
+			data.imgUrl = await pokicon(this.config.general.imgUrl, data.pokemon_id, data.form, 0, data.gender, data.costume)
 			data.mapUrl = `${this.config.locale.mapUrl}/@/${data.latitude}/${data.longitude}/18`
 			data.mapIcon = `${this.config.locale.mapIcon}`
 			const e = []
