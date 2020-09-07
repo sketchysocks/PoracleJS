@@ -31,10 +31,9 @@ async function pokicon(baseUrl, pokemonId, form = 0, evolution = 0, female = fal
     await sema.acquire()
     try {
         if (availablePokemon[baseUrl] === undefined) {
-            availablePokemon[baseUrl] = new Set(await axios({
-                url: `${baseUrl}/index.json`,
-                responseType: 'json',
-            }).data)
+            const response = await axios.get(`${baseUrl}/index.json`)
+            console.log(response)
+            availablePokemon[baseUrl] = new Set(response.data)
         }
     } finally {
         sema.release()
