@@ -89,7 +89,7 @@ class Quest extends Controller {
 			data.waze = `https://www.waze.com/sl/livemap/directions?latlng=${data.latitude}%2C${data.longitude}`
 			data.disTime = moment.tz(new Date(), this.config.locale.time, geoTz(data.latitude, data.longitude).toString()).endOf('day')
 			data.tth = moment.preciseDiff(Date.now(), data.disTime.clone().utc(), true)
-			data.imgUrl = `${this.config.general.imgUrl}egg${data.level}.png`
+			data.imgUrl = `${this.config.general.imgUrlRewards}egg${data.level}.png`
 			data.mapUrl = `${this.config.locale.mapUrl}/@/${data.latitude}/${data.longitude}/18`
 			data.mapIcon = `${this.config.locale.mapIcon}`
 			if (!data.team_id) data.team_id = 0
@@ -116,10 +116,10 @@ class Quest extends Controller {
 				: 'https://s3.amazonaws.com/com.cartodb.users-assets.production/production/jonmrich/assets/20150203194453red_pin.png'
 
 			if (data.rewardData.items[1]) {
-				data.imgUrl = `${this.config.general.imgUrl}rewards/reward_${data.rewardData.items[1]}_1.png`
+				data.imgUrl = `${this.config.general.imgUrlRewards}rewards/reward_${data.rewardData.items[1]}_1.png`
 			}
 			if (data.dustAmount) {
-				data.imgUrl = `${this.config.general.imgUrl}rewards/reward_stardust.png`
+				data.imgUrl = `${this.config.general.imgUrlRewards}rewards/reward_stardust.png`
 				data.dustAmount = data.rewards[0].info.amount
 			}
 
