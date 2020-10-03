@@ -263,7 +263,7 @@ class Raid extends Controller {
 			data.applemap = `https://maps.apple.com/maps?daddr=${data.latitude},${data.longitude}`
 			data.tth = moment.preciseDiff(Date.now(), data.start * 1000, true)
 			data.hatchtime = moment(data.start * 1000).tz(geoTz(data.latitude, data.longitude).toString()).format(this.config.locale.time)
-			data.imgUrl = `${this.config.general.imgUrl}egg${data.level}.png`
+			data.imgUrl = `${this.config.general.imgUrlRewards}egg${data.level}.png`
 			data.staticSprite = encodeURI(JSON.stringify([
 				{
 					url: data.imgUrl,
