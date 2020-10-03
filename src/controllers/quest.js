@@ -112,7 +112,7 @@ class Quest extends Controller {
 			data.itemNames = Object.keys(this.utilData.items).filter((item) => data.rewardData.items.includes(this.utilData.items[item])).map((i) => this.translator.translate(this.utilData.items[i])).join(', ')
 
 			data.imgUrl = data.rewardData.monsters[1]
-				? `${this.config.general.imgUrl}pokemon_icon_${data.rewardData.monsters[1].toString().padStart(3, '0')}_00.png`
+				? data.rewardData.icon
 				: 'https://s3.amazonaws.com/com.cartodb.users-assets.production/production/jonmrich/assets/20150203194453red_pin.png'
 
 			if (data.rewardData.items[1]) {
@@ -242,7 +242,7 @@ class Quest extends Controller {
 				rewardString = rewardString.concat(rew)
 			} else if (reward.type === 7) {
 				const template = this.utilData.questRewardTypes[7]
-				
+
 				const monster = Object.values(this.monsterData).find((mon) => mon.id === reward.info.pokemon_id && mon.form.id === 0)
 				const emoji = monster.types.map((t) => this.translator.translate(t.emoji)).join('')
 
@@ -257,10 +257,8 @@ class Quest extends Controller {
 		}
 		return {
 			rewardString, monsters, items, dustAmount, isShiny, icon,
-			}
 		}
 	}
-
 
 	async getConditionString(data) {
 		return new Promise((resolve) => {
