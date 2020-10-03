@@ -3,6 +3,7 @@ const geoTz = require('geo-tz')
 const moment = require('moment-timezone')
 const Controller = require('./controller')
 const { log } = require('../lib/logger')
+const pokicon = require('../util/pokicon')
 
 class Raid extends Controller {
 	async raidWhoCares(data) {
@@ -149,7 +150,7 @@ class Raid extends Controller {
 				if (!data.team_id) data.team_id = 0
 				if (data.name) data.gymName = data.name ? data.name : ''
 				data.name = this.translator.translate(monster.name)
-				data.imgUrl = `${this.config.general.imgUrl}pokemon_icon_${data.pokemon_id.toString().padStart(3, '0')}_${data.form ? data.form.toString() : '00'}.png`
+				data.imgUrl = await pokicon(this.config.general.imgUrl, data.pokemon_id, data.form, data.evolution, data.gender, data.costume)
 				data.mapUrl = `${this.config.locale.mapUrl}/@/${data.latitude}/${data.longitude}/18`
 				data.mapIcon = `${this.config.locale.mapIcon}`
 				const e = []
@@ -260,9 +261,12 @@ class Raid extends Controller {
 
 			data.mapurl = `https://www.google.com/maps/search/?api=1&query=${data.latitude},${data.longitude}`
 			data.applemap = `https://maps.apple.com/maps?daddr=${data.latitude},${data.longitude}`
+			data.waze = `https://www.waze.com/sl/livemap/directions?latlng=${data.latitude}%2C${data.longitude}`
 			data.tth = moment.preciseDiff(Date.now(), data.start * 1000, true)
 			data.hatchtime = moment(data.start * 1000).tz(geoTz(data.latitude, data.longitude).toString()).format(this.config.locale.time)
-			data.imgUrl = `${this.config.general.imgUrl}egg${data.level}.png`
+			data.imgUrl = `${this.config.general.imgUrlRewards}egg${data.level}.png`
+			data.mapUrl = `${this.config.locale.mapUrl}/@/${data.latitude}/${data.longitude}/18`
+			data.mapIcon = `${this.config.locale.mapIcon}`
 			data.staticSprite = encodeURI(JSON.stringify([
 				{
 					url: data.imgUrl,

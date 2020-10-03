@@ -32,6 +32,7 @@
   },
   "homepage": "https://github.com/KartulUdus/reference#readme",
   "dependencies": {
+    "async-sema": "^3.1.0",
     "axios": "^0.19.0",
     "commander": "^4.1.0",
     "config": "^3.2.4",

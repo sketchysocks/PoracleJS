@@ -8,7 +8,8 @@
     "general": {
         "environment": "production",
         "alertMinimumTime" : 120,
-        "imgUrl": "https://raw.githubusercontent.com/nileplumb/PkmnShuffleMap/master/PMSF_icons_large/",
+        "imgUrl": "https://mygod.github.io/pokicons/v2",
+        "imgUrlRewards": "https://raw.githubusercontent.com/whitewillem/PogoAssets/resized/no_border/",
         "locale": "en",
         "weatherChangeAlert": false
     },
