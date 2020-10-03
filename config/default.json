@@ -9,7 +9,7 @@
         "environment": "production",
         "alertMinimumTime" : 120,
         "imgUrl": "https://mygod.github.io/pokicons/v2",
-        "imgUrlRewards": "https://github.com/whitewillem/PogoAssets/tree/resized/no_border",
+        "imgUrlRewards": "https://raw.githubusercontent.com/whitewillem/PogoAssets/resized/no_border/",
         "locale": "en",
         "weatherChangeAlert": false
     },
