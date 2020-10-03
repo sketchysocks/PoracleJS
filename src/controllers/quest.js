@@ -3,6 +3,7 @@ const geoTz = require('geo-tz')
 const moment = require('moment-timezone')
 const Controller = require('./controller')
 const { log } = require('../lib/logger')
+const pokicon = require('../util/pokicon')
 
 class Quest extends Controller {
 	async questWhoCares(data) {
@@ -88,7 +89,7 @@ class Quest extends Controller {
 			data.waze = `https://www.waze.com/sl/livemap/directions?latlng=${data.latitude}%2C${data.longitude}`
 			data.disTime = moment.tz(new Date(), this.config.locale.time, geoTz(data.latitude, data.longitude).toString()).endOf('day')
 			data.tth = moment.preciseDiff(Date.now(), data.disTime.clone().utc(), true)
-			data.imgUrl = `${this.config.general.imgUrl}egg${data.level}.png`
+			data.imgUrl = `${this.config.general.imgUrlRewards}egg${data.level}.png`
 			data.mapUrl = `${this.config.locale.mapUrl}/@/${data.latitude}/${data.longitude}/18`
 			data.mapIcon = `${this.config.locale.mapIcon}`
 			if (!data.team_id) data.team_id = 0
@@ -110,15 +111,15 @@ class Quest extends Controller {
 			data.monsterNames = Object.values(this.monsterData).filter((mon) => data.rewardData.monsters.includes(mon.id) && !mon.form.id).map((m) => this.translator.translate(m.name)).join(', ')
 			data.itemNames = Object.keys(this.utilData.items).filter((item) => data.rewardData.items.includes(this.utilData.items[item])).map((i) => this.translator.translate(this.utilData.items[i])).join(', ')
 
-			data.imgUrl = data.rewardData.monsters[1]
+				? data.rewardData.icon
 				? `${this.config.general.imgUrl}pokemon_icon_${data.rewardData.monsters[1].toString().padStart(3, '0')}_00.png`
 				: 'https://s3.amazonaws.com/com.cartodb.users-assets.production/production/jonmrich/assets/20150203194453red_pin.png'
 
 			if (data.rewardData.items[1]) {
-				data.imgUrl = `${this.config.general.imgUrl}rewards/reward_${data.rewardData.items[1]}_1.png`
+				data.imgUrl = `${this.config.general.imgUrlRewards}rewards/reward_${data.rewardData.items[1]}_1.png`
 			}
 			if (data.dustAmount) {
-				data.imgUrl = `${this.config.general.imgUrl}rewards/reward_stardust.png`
+				data.imgUrl = `${this.config.general.imgUrlRewards}rewards/reward_stardust.png`
 				data.dustAmount = data.rewards[0].info.amount
 			}
 
@@ -219,44 +220,45 @@ class Quest extends Controller {
 	}
 
 	async getRewardSting(data) {
-		return new Promise((resolve) => {
-			const monsters = [0]
-			const items = [0]
-			let rewardString = ''
-			let dustAmount = 0
-			let isShiny = 0
+		const monsters = [0]
+		const items = [0]
+		let rewardString = ''
+		let dustAmount = 0
+		let isShiny = 0
+		let icon = ''
 
-			data.rewards.forEach((reward) => {
-				if (reward.type === 2) {
-					const template = this.utilData.questRewardTypes[2]
-					const mustache = this.mustache.compile(this.translator.translate(template))
-					const rew = mustache({ amount: reward.info.amount, item: this.translator.translate(this.utilData.items[reward.info.item_id] || 'unknown item') })
-					items.push(reward.info.item_id)
-					rewardString = rewardString.concat(rew)
-				} else if (reward.type === 3) {
-					const template = this.utilData.questRewardTypes[3]
-					const mustache = this.mustache.compile(this.translator.translate(template))
-					const rew = mustache({ amount: reward.info.amount })
-					dustAmount = reward.info.amount
-					rewardString = rewardString.concat(rew)
-				} else if (reward.type === 7) {
-					const template = this.utilData.questRewardTypes[7]
+		for (const reward of data.rewards) {
+			if (reward.type === 2) {
+				const template = this.utilData.questRewardTypes[2]
+				const mustache = this.mustache.compile(this.translator.translate(template))
+				const rew = mustache({ amount: reward.info.amount, item: this.translator.translate(this.utilData.items[reward.info.item_id] || 'unknown item') })
+				items.push(reward.info.item_id)
+				rewardString = rewardString.concat(rew)
+			} else if (reward.type === 3) {
+				const template = this.utilData.questRewardTypes[3]
+				const mustache = this.mustache.compile(this.translator.translate(template))
+				const rew = mustache({ amount: reward.info.amount })
+				dustAmount = reward.info.amount
+				rewardString = rewardString.concat(rew)
+			} else if (reward.type === 7) {
+				const template = this.utilData.questRewardTypes[7]
+				
+				const monster = Object.values(this.monsterData).find((mon) => mon.id === reward.info.pokemon_id && mon.form.id === 0)
+				const emoji = monster.types.map((t) => this.translator.translate(t.emoji)).join('')
 
-					const monster = Object.values(this.monsterData).find((mon) => mon.id === reward.info.pokemon_id && mon.form.id === 0)
-					const emoji = monster.types.map((t) => this.translator.translate(t.emoji)).join('')
+				if (reward.info.shiny) isShiny = 1
+				const mustache = this.mustache.compile(this.translator.translate(template))
 
-					if (reward.info.shiny) isShiny = 1
-					const mustache = this.mustache.compile(this.translator.translate(template))
-
-					const rew = mustache({ pokemon: this.translator.translate(monster.name), emoji, isShiny })
-					monsters.push(reward.info.pokemon_id)
-					rewardString = rewardString.concat(rew)
-				}
-			})
-			resolve({
-				rewardString, monsters, items, dustAmount, isShiny,
-			})
-		})
+				const rew = mustache({ pokemon: this.translator.translate(monster.name), emoji, isShiny })
+				monsters.push(reward.info.pokemon_id)
+				rewardString = rewardString.concat(rew)
+				icon = await pokicon(this.config.general.imgUrl, reward.info.pokemon_id, reward.info.form_id, 0, reward.info.gender_id, reward.info.costume_id, reward.info.shiny)
+			}
+		}
+		return {
+			rewardString, monsters, items, dustAmount, isShiny, icon,
+			}
+		}
 	}
 
 
