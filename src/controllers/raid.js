@@ -234,9 +234,9 @@ class Raid extends Controller {
 					const message = JSON.parse(mustache(view))
                                 	if (cares.ping) {
                                         	if (!message.content) {
-                                                	message.content = cares.ping;
+                                                	message.content = cares.ping
                                         	} else {
-                                               		message.content += cares.ping;
+                                               		message.content += cares.ping
                                         	}
                                 	}
 					const work = {
@@ -257,7 +257,6 @@ class Raid extends Controller {
 				}
 				return jobs
 			}
-
 
 			data.mapurl = `https://www.google.com/maps/search/?api=1&query=${data.latitude},${data.longitude}`
 			data.applemap = `https://maps.apple.com/maps?daddr=${data.latitude},${data.longitude}`
@@ -336,12 +335,12 @@ class Raid extends Controller {
 				const message = JSON.parse(mustache(view))
 
 				if (cares.ping) {
-                                        if (!message.content) {
-                                                message.content = cares.ping;
-                                        } else {
-                                                message.content += cares.ping;
-                                        }
-                                }
+					if (!message.content) {
+						message.content = cares.ping
+					} else {
+						message.content += cares.ping
+					}
+				}
 
 				const work = {
 					lat: data.latitude.toString().substring(0, 8),
@@ -365,6 +364,5 @@ class Raid extends Controller {
 		}
 	}
 }
-
 
 module.exports = Raid
