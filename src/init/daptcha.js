@@ -11,8 +11,8 @@ module.exports = async (idArray, config, log) => {
 	client.on('ready', () => {
 		log.info('im ready')
 		idArray.map((id) => {
-			const human = client.users.get(id)
-			const channel = client.channels.get(id)
+			const human = client.users.cache.get(id)
+			const channel = client.channels.cache.get(id)
 			if (human) result.humans.push(id)
 			if (channel) result.channels.push(id)
 		})

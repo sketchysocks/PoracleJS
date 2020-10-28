@@ -51,7 +51,6 @@ class Pokestop extends Controller {
 		return result
 	}
 
-
 	async handle(obj) {
 		const data = obj
 		const minTth = this.config.general.monsterMinimumTimeTillHidden || 0
@@ -101,7 +100,6 @@ class Pokestop extends Controller {
 				return []
 			}
 
-
 			data.matched = await this.pointInArea([data.latitude, data.longitude])
 
 			data.gruntTypeId = 0
@@ -112,11 +110,11 @@ class Pokestop extends Controller {
 			}
 
 			data.gruntTypeEmoji = '❓'
-			data.gruntTypeColor = '12595240'
+			data.gruntTypeColor = 'BABABA'
 
 			data.gender = 0
 			data.gruntName = ''
-			data.gruntTypeColor = '12595240'
+			data.gruntTypeColor = 'BABABA'
 			data.gruntRewards = ''
 
 			if (data.gruntTypeId) {
@@ -178,7 +176,6 @@ class Pokestop extends Controller {
 				}
 			}
 
-
 			const whoCares = await this.invasionWhoCares(data)
 
 			this.log.info(`Invasion against ${data.gruntType} appeared and ${whoCares.length} humans cared.`)
@@ -219,12 +216,12 @@ class Pokestop extends Controller {
 				const mustache = this.mustache.compile(template)
 				const message = JSON.parse(mustache(view))
 				if (cares.ping) {
-                                        if (!message.content) {
-                                                message.content = cares.ping
-                                        } else {
-                                                message.content += cares.ping
-                                        }
-                                }
+					if (!message.content) {
+						message.content = cares.ping
+					} else {
+						message.content += cares.ping
+					}
+				}
 				const work = {
 					lat: data.latitude.toString().substring(0, 8),
 					lon: data.longitude.toString().substring(0, 8),
@@ -248,6 +245,5 @@ class Pokestop extends Controller {
 		}
 	}
 }
-
 
 module.exports = Pokestop
