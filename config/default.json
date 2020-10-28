@@ -7,7 +7,7 @@
     },
     "general": {
         "environment": "production",
-        "alertMinimumTime" : 120,
+        "alertMinimumTime": 120,
         "imgUrl": "https://mygod.github.io/pokicons/v2",
         "imgUrlRewards": "https://raw.githubusercontent.com/whitewillem/PogoAssets/resized/no_border/",
         "locale": "en",
@@ -40,9 +40,15 @@
         "unknownResponse": false,
         "invite": "",
         "token": [],
-        "channels": [""],
-        "userRole": [""],
-        "admins": [""],
+        "channels": [
+            ""
+        ],
+        "userRole": [
+            ""
+        ],
+        "admins": [
+            ""
+        ],
         "prefix": "$",
         "limitSec": 30,
         "limitAmount": 20,
@@ -54,22 +60,28 @@
             "#A335EE",
             "#FF8000"
         ]
-      },
-
-      "telegram": {
+    },
+    "telegram": {
         "enabled": false,
         "token": "",
-        "admins": [""],
-        "channels": [""]
-      },
-
-      "geocoding": {
+        "admins": [
+            ""
+        ],
+        "channels": [
+            ""
+        ]
+    },
+    "geocoding": {
         "provider": "poracle",
         "providerURL": "Your Nominatim Server Address",
         "staticProvider": "poracle",
         "staticProviderURL": "Your TileServerCache Server Address",
-        "geocodingKey":["Your Google Geocoding Key if you Use google as provider"],
-        "staticKey":["Your MapQuest or Google Key"],
+        "geocodingKey": [
+            "Your Google Geocoding Key if you Use google as provider"
+        ],
+        "staticKey": [
+            "Your MapQuest or Google Key"
+        ],
         "width": 250,
         "height": 175,
         "zoom": 15,
@@ -77,5 +89,5 @@
         "spriteWidth": 35,
         "scale": 2,
         "type": "osm-bright"
-      }
+    }
 }

@@ -33,7 +33,6 @@ exports.run = async (client, msg, command) => {
 		}
 		if (target.webhook) target.id = isRegistered.id
 
-
 		const location = await client.query.geolocate(search)
 
 		await client.query.updateQuery('humans', { latitude: location[0].latitude, longitude: location[0].longitude }, { id: target.id })

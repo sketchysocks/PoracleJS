@@ -2,7 +2,6 @@ exports.run = async (client, msg, command) => {
 	const typeArray = Object.keys(client.utilData.types).map((o) => o.toLowerCase())
 	let target = { id: msg.author.id, name: msg.author.tag, webhook: false }
 
-
 	try {
 		if (!client.config.discord.admins.includes(msg.author.id) && msg.channel.type === 'text') {
 			return await msg.author.send(client.translator.translate('Please run commands in Direct Messages'))
@@ -48,19 +47,18 @@ exports.run = async (client, msg, command) => {
 
 			if (formNames.length) {
 				monsters = Object.values(client.monsters).filter((mon) => ((args.includes(mon.name.toLowerCase()) || args.includes(mon.id.toString())) && formNames.includes(mon.form.name.toLowerCase())
-				|| mon.types.map((t) => t.name.toLowerCase()).find((t) => argTypes.includes(t)) && formNames.includes(mon.form.name.toLowerCase())
-				|| args.includes('template'))	&& formNames.includes(mon.form.name.toLowerCase()))
+					|| mon.types.map((t) => t.name.toLowerCase()).find((t) => argTypes.includes(t)) && formNames.includes(mon.form.name.toLowerCase())
+					|| args.includes('template')) && formNames.includes(mon.form.name.toLowerCase()))
 			} else {
 				monsters = Object.values(client.monsters).filter((mon) => ((args.includes(mon.name.toLowerCase()) || args.includes(mon.id.toString())) && !mon.form.id
-				|| mon.types.map((t) => t.name.toLowerCase()).find((t) => argTypes.includes(t)) && !mon.form.id
-				|| args.includes('template'))	&& !mon.form.id)
+					|| mon.types.map((t) => t.name.toLowerCase()).find((t) => argTypes.includes(t)) && !mon.form.id
+					|| args.includes('template')) && !mon.form.id)
 			}
 
 			const genCommand = args.filter((arg) => arg.match(client.re.genRe))
 			const gen = genCommand.length ? client.utilData.genData[+genCommand[0].replace(client.translator.translate('gen'), '')] : 0
 
 			if (gen) monsters = monsters.filter((mon) => mon.id >= gen.min && mon.id <= gen.max)
-
 
 			args.forEach((element) => {
 				if (element === 'ex') exclusive = 1

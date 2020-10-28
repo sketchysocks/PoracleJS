@@ -53,10 +53,10 @@ module.exports = () => {
 
 		return Math.max(10, Math.floor(
 			(atk + +ivAttack)
-              * (def + +ivDefense) ** 0.5
-              * (sta + +ivStamina) ** 0.5
-              * cpMulti ** 2
-              / 10,
+			* (def + +ivDefense) ** 0.5
+			* (sta + +ivStamina) ** 0.5
+			* cpMulti ** 2
+			/ 10,
 		))
 	})
 
