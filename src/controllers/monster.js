@@ -65,6 +65,7 @@ class Monster extends Controller {
 		return result
 	}
 
+
 	async handle(obj) {
 		const data = obj
 		try {
@@ -113,6 +114,7 @@ class Monster extends Controller {
 				wData = this.weatherController.controllerData[weatherCellId]
 				weather = wData.weather
 			}
+
 
 			const encountered = !(!(['string', 'number'].includes(typeof data.individual_attack) && (+data.individual_attack + 1))
 			|| !(['string', 'number'].includes(typeof data.individual_defense) && (+data.individual_defense + 1))
@@ -253,13 +255,13 @@ class Monster extends Controller {
 				const message = JSON.parse(mustache(view))
 
 				if (cares.ping) {
-					if (!message.content) {
-						message.content = cares.ping
-					} else {
-						message.content += cares.ping
-					}
-				}
-
+                                        if (!message.content) {
+                                                message.content = cares.ping
+                                        } else {
+                                                message.content += cares.ping
+                                        }
+                                }
+				
 				const work = {
 					lat: data.latitude.toString().substring(0, 8),
 					lon: data.longitude.toString().substring(0, 8),

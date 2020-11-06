@@ -2,7 +2,7 @@ module.exports = (client) => {
 	client.log.info(`Commando "${client.user.tag}" awaiting for orders!`)
 	client.user.setPresence({
 		game: {
-			name: 'Pokemon GO',
+			name: 'Pokemon GO 24/7',
 		},
 	})
 }

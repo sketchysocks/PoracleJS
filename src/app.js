@@ -22,6 +22,7 @@ const readDir = util.promisify(fs.readdir)
 
 const telegraf = new Telegraf(config.telegram.token, { channelMode: true })
 
+
 const cache = new NodeCache({ stdTTL: 5400 })
 
 const discordCache = new NodeCache({ stdTTL: config.discord.limitSec })
@@ -36,6 +37,7 @@ const monsterData = require('./util/monsters')
 const utilData = require('./util/util')
 const re = require('./util/regex')(translator)
 
+
 const MonsterController = require('./controllers/monster')
 const RaidController = require('./controllers/raid')
 const QuestController = require('./controllers/quest')
@@ -47,6 +49,7 @@ const monsterController = new MonsterController(knex, config, dts, geofence, mon
 const raidController = new RaidController(knex, config, dts, geofence, monsterData, discordCache, translator, mustache, weatherController)
 const questController = new QuestController(knex, config, dts, geofence, monsterData, discordCache, translator, mustache, weatherController)
 const pokestopController = new PokestopController(knex, config, dts, geofence, monsterData, discordCache, translator, mustache, weatherController)
+
 
 fastify.decorate('logger', log)
 fastify.decorate('webhooks', webhooks)
@@ -85,6 +88,7 @@ if (config.telegram.enabled) {
 
 // todo remove lint passing log
 log.debug(telegram)
+
 
 async function run() {
 	if (config.discord.enabled) {

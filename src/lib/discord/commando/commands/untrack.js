@@ -3,6 +3,7 @@ exports.run = async (client, msg, command) => {
 	const [args] = command
 	let target = { id: msg.author.id, name: msg.author.tag, webhook: false }
 
+
 	try {
 		// Check target
 		if (!client.config.discord.admins.includes(msg.author.id) && msg.channel.type === 'text') {

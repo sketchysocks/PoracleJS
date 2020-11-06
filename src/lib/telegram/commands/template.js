@@ -1,3 +1,4 @@
+
 module.exports = async (ctx) => {
 	const { controller, command } = ctx.state
 
@@ -25,6 +26,7 @@ module.exports = async (ctx) => {
 				})
 			})
 		}
+
 
 		const isRegistered = await controller.query.countQuery('humans', { id: target.id })
 		if (!isRegistered) {

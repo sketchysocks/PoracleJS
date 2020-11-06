@@ -44,6 +44,7 @@ exports.run = async (client, msg, command) => {
 			let stardustTracking = 9999999
 			let clean = false
 
+
 			const argTypes = args.filter((arg) => typeArray.includes(arg))
 			const genCommand = args.filter((arg) => arg.match(client.re.genRe))
 			const gen = genCommand.length ? client.utilData.genData[+genCommand[0].replace(client.translator.translate('gen'), '')] : 0

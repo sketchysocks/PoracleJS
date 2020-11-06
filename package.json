@@ -25,6 +25,11 @@
   "bugs": {
     "url": "https://github.com/KartulUdus/reference/issues"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
   "homepage": "https://github.com/KartulUdus/reference#readme",
   "dependencies": {
     "@discordjs/uws": "^10.149.0",
@@ -34,7 +39,7 @@
     "commander": "^4.1.0",
     "config": "^3.2.4",
     "discord-markdown": "^2.3.1",
-    "discord.js": "^12.4.1",
+    "discord.js": "^11.5.1",
     "dotenv": "^8.2.0",
     "emoji-flags": "^1.2.0",
     "emoji-strip": "^1.0.1",

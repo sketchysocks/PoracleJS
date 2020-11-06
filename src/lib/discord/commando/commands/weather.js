@@ -42,6 +42,7 @@ exports.run = async (client, msg, command) => {
 			if (command[1].includes('everything')) conditions.push(0)
 		}
 
+
 		const insert = conditions.map((c) => ({
 			id: target.id,
 			ping: pings,
