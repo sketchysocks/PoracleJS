@@ -7,6 +7,7 @@ const Daptcha = require('./daptcha')
 
 const hookRegex = new RegExp('(?:(?:https?):\\/\\/|www\\.)(?:\\([-A-Z0-9+&@#\\/%=~_|$?!:,.]*\\)|[-A-Z0-9+&@#\\/%=~_|$?!:,.])*(?:\\([-A-Z0-9+&@#\\/%=~_|$?!:,.]*\\)|[A-Z0-9+&@#\\/%=~_|$])', 'igm')
 
+
 function getNewKnex() {
 	switch (config.database.client) {
 		case 'mysql': {
@@ -69,13 +70,15 @@ async function insertOrUpdateQuery(db, table, values) {
 	switch (config.database.client) {
 		case 'pg': {
 			const firstData = values[0] ? values[0] : values
-			const query = `${db(table).insert(values).toQuery()} ON CONFLICT ON CONSTRAINT ${table}_tracking DO UPDATE SET ${Object.keys(firstData).map((field) => `${field}=EXCLUDED.${field}`).join(', ')}`
+			const query = `${db(table).insert(values).toQuery()} ON CONFLICT ON CONSTRAINT ${table}_tracking DO UPDATE SET ${
+				Object.keys(firstData).map((field) => `${field}=EXCLUDED.${field}`).join(', ')}`
 			await db.raw(query)
 			break
 		}
 		case 'mysql': {
 			const firstData = values[0] ? values[0] : values
-			const query = `${db(table).insert(values).toQuery()} ON DUPLICATE KEY UPDATE ${Object.keys(firstData).map((field) => `\`${field}\`=VALUES(\`${field}\`)`).join(', ')}`
+			const query = `${db(table).insert(values).toQuery()} ON DUPLICATE KEY UPDATE ${
+				Object.keys(firstData).map((field) => `\`${field}\`=VALUES(\`${field}\`)`).join(', ')}`
 			await db.raw(query)
 			break
 		}
@@ -98,7 +101,8 @@ async function insertOrUpdateQuery(db, table, values) {
 
 			const firstData = values[0] ? values[0] : values
 			const insertValues = values.map((o) => `(${Object.values(o).join()})`).join()
-			const query = `INSERT INTO ${table} (${Object.keys(firstData)}) VALUES ${insertValues} ON CONFLICT (${constraints[table]}) DO UPDATE SET ${Object.keys(firstData).map((field) => `${field}=EXCLUDED.${field}`).join(', ')}`
+			const query = `INSERT INTO ${table} (${Object.keys(firstData)}) VALUES ${insertValues} ON CONFLICT (${constraints[table]}) DO UPDATE SET ${
+				Object.keys(firstData).map((field) => `${field}=EXCLUDED.${field}`).join(', ')}`
 			await db.raw(query)
 		}
 	}
@@ -207,6 +211,7 @@ async function run() {
 			delete egg.raid_level
 		}
 
+
 		monsters = snakeCaseKeys(monsters)
 		invasions = snakeCaseKeys(invasions)
 		raids = snakeCaseKeys(raids)
@@ -219,6 +224,7 @@ async function run() {
 		const raidsSlices = raids.map((e, i) => (i % 25 === 0 ? raids.slice(i, i + 25) : null)).filter((e) => e)
 		const questSlices = quests.map((e, i) => (i % 25 === 0 ? quests.slice(i, i + 25) : null)).filter((e) => e)
 		const eggSlices = eggs.map((e, i) => (i % 25 === 0 ? eggs.slice(i, i + 25) : null)).filter((e) => e)
+
 
 		for (const h of humanSlices) {
 			await insertOrUpdateQuery(newDb, 'humans', h)

@@ -1,3 +1,4 @@
+
 const inside = require('point-in-polygon')
 const path = require('path')
 const NodeGeocoder = require('node-geocoder')
@@ -79,7 +80,7 @@ class Controller {
 		lat2 = lat2.toRad()
 
 		const a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-			+ Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2)
+				+ Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2)
 		const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 		const d = this.earthRadius * c
 		return Math.ceil(d)
@@ -146,6 +147,7 @@ class Controller {
 		return matchAreas
 	}
 
+
 	// database methods below
 
 	async selectOneQuery(table, conditions) {
@@ -210,12 +212,14 @@ class Controller {
 		switch (this.config.database.client) {
 			case 'pg': {
 				const firstData = values[0] ? values[0] : values
-				const query = `${this.db(table).insert(values).toQuery()} ON CONFLICT ON CONSTRAINT ${table}_tracking DO UPDATE SET ${Object.keys(firstData).map((field) => `${field}=EXCLUDED.${field}`).join(', ')}`
+				const query = `${this.db(table).insert(values).toQuery()} ON CONFLICT ON CONSTRAINT ${table}_tracking DO UPDATE SET ${
+					Object.keys(firstData).map((field) => `${field}=EXCLUDED.${field}`).join(', ')}`
 				return this.returnByDatabaseType(await this.db.raw(query))
 			}
 			case 'mysql': {
 				const firstData = values[0] ? values[0] : values
-				const query = `${this.db(table).insert(values).toQuery()} ON DUPLICATE KEY UPDATE ${Object.keys(firstData).map((field) => `\`${field}\`=VALUES(\`${field}\`)`).join(', ')}`
+				const query = `${this.db(table).insert(values).toQuery()} ON DUPLICATE KEY UPDATE ${
+					Object.keys(firstData).map((field) => `\`${field}\`=VALUES(\`${field}\`)`).join(', ')}`
 				return this.returnByDatabaseType(await this.db.raw(query))
 			}
 			default: {
@@ -237,12 +241,14 @@ class Controller {
 
 				const firstData = values[0] ? values[0] : values
 				const insertValues = values.map((o) => `(${Object.values(o).join()})`).join()
-				const query = `INSERT INTO ${table} (${Object.keys(firstData)}) VALUES ${insertValues} ON CONFLICT (${constraints[table]}) DO UPDATE SET ${Object.keys(firstData).map((field) => `${field}=EXCLUDED.${field}`).join(', ')}`
+				const query = `INSERT INTO ${table} (${Object.keys(firstData)}) VALUES ${insertValues} ON CONFLICT (${constraints[table]}) DO UPDATE SET ${
+					Object.keys(firstData).map((field) => `${field}=EXCLUDED.${field}`).join(', ')}`
 				const result = await this.db.raw(query)
 				return this.returnByDatabaseType(result)
 			}
 		}
 	}
+
 
 	async deleteQuery(table, values) {
 		try {
@@ -265,6 +271,7 @@ class Controller {
 			}
 		}
 	}
+
 
 	findIvColor(iv) {
 		// it must be perfect if none of the ifs kick in
@@ -292,5 +299,6 @@ class Controller {
 		})
 	}
 }
+
 
 module.exports = Controller

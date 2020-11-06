@@ -44,13 +44,14 @@ exports.run = async (client, msg, command) => {
 			let stardustTracking = 9999999
 			let clean = false
 
+
 			const argTypes = args.filter((arg) => typeArray.includes(arg))
 			const genCommand = args.filter((arg) => arg.match(client.re.genRe))
 			const gen = genCommand.length ? client.utilData.genData[+genCommand[0].replace(client.translator.translate('gen'), '')] : 0
 
 			fullMonsters = Object.values(client.monsters).filter((mon) => ((args.includes(mon.name.toLowerCase()) || args.includes(mon.id.toString())) && !mon.form.id
-				|| mon.types.map((t) => t.name.toLowerCase()).find((t) => argTypes.includes(t)) && !mon.form.id
-				|| args.includes('all pokemon')) && !mon.form.id)
+			|| mon.types.map((t) => t.name.toLowerCase()).find((t) => argTypes.includes(t)) && !mon.form.id
+			|| args.includes('all pokemon')) && !mon.form.id)
 			if (gen) fullMonsters = fullMonsters.filter((mon) => mon.id >= gen.min && mon.id <= gen.max)
 			monsters = fullMonsters.map((mon) => mon.id)
 			items = Object.keys(client.utilData.items).filter((key) => args.includes(client.translator.translate(client.utilData.items[key].toLowerCase())) || args.includes(client.translator.translate('all items')))

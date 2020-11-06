@@ -77,13 +77,9 @@ class Worker {
 	}
 
 	async userAlert(data) {
-		let user = this.client.users.cache.get(data.target)
+		const user = this.client.users.get(data.target)
 		const msgDeletionMs = ((data.tth.hours * 3600) + (data.tth.minutes * 60) + data.tth.seconds) * 1000
-		if (!user) {
-			log.warn(`Originating connection to ${data.name}`)
-			user = await this.client.users.fetch(data.target)
-			await user.createDM()
-		}
+		if (!user) return log.warn(`user ${data.name} not found`)
 		try {
 			const msg = await user.send(data.message.content || '', data.message)
 			if (data.clean) {
@@ -98,7 +94,7 @@ class Worker {
 	}
 
 	async channelAlert(data) {
-		const channel = this.client.channels.cache.get(data.target)
+		const channel = this.client.channels.get(data.target)
 		const msgDeletionMs = ((data.tth.hours * 3600) + (data.tth.minutes * 60) + data.tth.seconds) * 1000
 		if (!channel) return log.warn(`channel ${data.name} not found`)
 		try {

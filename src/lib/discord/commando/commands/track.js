@@ -1,3 +1,4 @@
+
 exports.run = async (client, msg, command) => {
 	const typeArray = Object.keys(client.utilData.types).map((o) => o.toLowerCase())
 	let target = { id: msg.author.id, name: msg.author.tag, webhook: false }
@@ -68,12 +69,12 @@ exports.run = async (client, msg, command) => {
 
 			if (formNames.length) {
 				monsters = Object.values(client.monsters).filter((mon) => ((args.includes(mon.name.toLowerCase()) || args.includes(mon.id.toString())) && formNames.includes(mon.form.name.toLowerCase())
-					|| mon.types.map((t) => t.name.toLowerCase()).find((t) => argTypes.includes(t)) && formNames.includes(mon.form.name.toLowerCase())
-					|| args.includes(client.translator.translate('everything'))) && formNames.includes(mon.form.name.toLowerCase()))
+				|| mon.types.map((t) => t.name.toLowerCase()).find((t) => argTypes.includes(t)) && formNames.includes(mon.form.name.toLowerCase())
+				|| args.includes(client.translator.translate('everything'))) && formNames.includes(mon.form.name.toLowerCase()))
 			} else {
 				monsters = Object.values(client.monsters).filter((mon) => ((args.includes(mon.name.toLowerCase()) || args.includes(mon.id.toString())) && !mon.form.id
-					|| mon.types.map((t) => t.name.toLowerCase()).find((t) => argTypes.includes(t)) && !mon.form.id
-					|| args.includes(client.translator.translate('everything'))) && !mon.form.id)
+				|| mon.types.map((t) => t.name.toLowerCase()).find((t) => argTypes.includes(t)) && !mon.form.id
+				|| args.includes(client.translator.translate('everything'))) && !mon.form.id)
 			}
 			if (gen) monsters = monsters.filter((mon) => mon.id >= gen.min && mon.id <= gen.max)
 			// Parse command elements to stuff

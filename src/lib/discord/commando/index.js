@@ -67,6 +67,7 @@ class DiscordCommando {
 					this.client.commands.set(commandName, props)
 				})
 
+
 				this.log.log({ level: 'debug', message: `Loading discord commands: (${enabledCommands.join(' ')})`, event: 'discord:commandsAdded' })
 			})
 			this.client.login(this.config.discord.token[0])

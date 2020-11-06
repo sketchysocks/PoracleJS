@@ -1,3 +1,4 @@
+
 exports.run = async (client, msg) => {
 	if (!client.config.discord.channels.includes(msg.channel.id)) {
 		return client.log.info(`${msg.author.tag} tried to register in ${msg.channel.name}`)
