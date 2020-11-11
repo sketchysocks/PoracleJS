@@ -19,6 +19,7 @@
         "no-throw-literal": ["off"],
         "no-param-reassign": ["off"],
         "no-bitwise": ["error", { "allow": ["~"] }],
-        "eqeqeq": [ "off" ]
+        "eqeqeq": [ "off" ],
+        "linebreak-style": ["off"]
     }
 }
