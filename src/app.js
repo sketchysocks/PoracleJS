@@ -22,7 +22,8 @@ const readDir = util.promisify(fs.readdir)
 
 const telegraf = new Telegraf(config.telegram.token, { channelMode: true })
 
-const cache = new NodeCache({ stdTTL: 5400, useClones: false })
+
+const cache = new NodeCache({ stdTTL: 5400 })
 
 const discordCache = new NodeCache({ stdTTL: config.discord.limitSec })
 
@@ -36,6 +37,7 @@ const monsterData = require('./util/monsters')
 const utilData = require('./util/util')
 const re = require('./util/regex')(translator)
 
+
 const MonsterController = require('./controllers/monster')
 const RaidController = require('./controllers/raid')
 const QuestController = require('./controllers/quest')
@@ -47,6 +49,7 @@ const monsterController = new MonsterController(knex, config, dts, geofence, mon
 const raidController = new RaidController(knex, config, dts, geofence, monsterData, discordCache, translator, mustache, weatherController)
 const questController = new QuestController(knex, config, dts, geofence, monsterData, discordCache, translator, mustache, weatherController)
 const pokestopController = new PokestopController(knex, config, dts, geofence, monsterData, discordCache, translator, mustache, weatherController)
+
 
 fastify.decorate('logger', log)
 fastify.decorate('webhooks', webhooks)
@@ -85,6 +88,7 @@ if (config.telegram.enabled) {
 
 // todo remove lint passing log
 log.debug(telegram)
+
 
 async function run() {
 	if (config.discord.enabled) {
@@ -153,12 +157,12 @@ async function handleAlarms() {
 		switch (hook.type) {
 			case 'pokemon': {
 				fastify.webhooks.info('pokemon', hook.message)
-				if (fastify.cache.has(`${hook.message.encounter_id}_${hook.message.disappear_time}_${hook.message.weight}`)) {
+				if (fastify.cache.get(`${hook.message.encounter_id}_${hook.message.disappear_time}_${hook.message.weight}`)) {
 					fastify.logger.debug(`Wild encounter ${hook.message.encounter_id} was sent again too soon, ignoring`)
 					break
 				}
 
-				fastify.cache.set(`${hook.message.encounter_id}_${hook.message.disappear_time}_${hook.message.weight}`, 'cached')
+				fastify.cache.set(`${hook.message.encounter_id}_${hook.message.disappear_time}_${hook.message.weight}`, JSON.stringify(hook))
 
 				const result = await fastify.monsterController.handle(hook.message)
 				result.forEach((job) => {
@@ -170,12 +174,12 @@ async function handleAlarms() {
 			}
 			case 'raid': {
 				fastify.webhooks.info('raid', hook.message)
-				if (fastify.cache.has(`${hook.message.gym_id}_${hook.message.end}_${hook.message.pokemon_id}`)) {
+				if (fastify.cache.get(`${hook.message.gym_id}_${hook.message.end}_${hook.message.pokemon_id}`)) {
 					fastify.logger.debug(`Raid ${hook.message.gym_id} was sent again too soon, ignoring`)
 					break
 				}
 
-				fastify.cache.set(`${hook.message.gym_id}_${hook.message.end}_${hook.message.pokemon_id}`, 'cached')
+				fastify.cache.set(`${hook.message.gym_id}_${hook.message.end}_${hook.message.pokemon_id}`, JSON.stringify(hook))
 
 				const result = await fastify.raidController.handle(hook.message)
 				if (!result) break
@@ -190,7 +194,7 @@ async function handleAlarms() {
 				fastify.webhooks.info('pokestop', hook.message)
 				const incidentExpiration = hook.message.incident_expiration ? hook.message.incident_expiration : hook.message.incident_expire_timestamp
 				if (!incidentExpiration) break
-				if (fastify.cache.has(`${hook.message.pokestop_id}_${incidentExpiration}`)) {
+				if (await fastify.cache.get(`${hook.message.pokestop_id}_${incidentExpiration}`)) {
 					fastify.logger.debug(`Invasion at ${hook.message.pokestop_id} was sent again too soon, ignoring`)
 					break
 				}
@@ -208,7 +212,7 @@ async function handleAlarms() {
 			}
 			case 'quest': {
 				fastify.webhooks.info('quest', hook.message)
-				if (fastify.cache.has(`${hook.message.pokestop_id}_${JSON.stringify(hook.message.rewards)}`)) {
+				if (await fastify.cache.get(`${hook.message.pokestop_id}_${JSON.stringify(hook.message.rewards)}`)) {
 					fastify.logger.debug(`Quest at ${hook.message.pokestop_name} was sent again too soon, ignoring`)
 					break
 				}
@@ -226,7 +230,7 @@ async function handleAlarms() {
 			}
 			case 'weather': {
 				fastify.webhooks.info('weather', hook.message)
-				if (fastify.cache.has(`${hook.message.s2_cell_id}_${hook.message.time_changed}`)) {
+				if (await fastify.cache.get(`${hook.message.s2_cell_id}_${hook.message.time_changed}`)) {
 					fastify.logger.debug(`Weather for ${hook.message.s2_cell_id} was sent again too soon, ignoring`)
 					break
 				}

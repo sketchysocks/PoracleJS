@@ -22,6 +22,7 @@ function getKnex(conf) {
 		case 'pg': {
 			return Knex({
 				client: 'pg',
+				version: '7.11',
 				connection: conf.database.conn,
 				pool: { min: 2, max: 10 },
 			})

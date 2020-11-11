@@ -68,6 +68,7 @@ class Telegram {
 		}
 	}
 
+
 	static async channelAlert(data) {
 		this.log.info(data)
 	}

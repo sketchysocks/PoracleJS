@@ -13,36 +13,26 @@ class Pokestop extends Controller {
 		let query = `
 		select humans.id, humans.name, humans.type, humans.latitude, humans.longitude, invasion.template, invasion.distance, invasion.clean, invasion.ping from invasion
 		join humans on humans.id = invasion.id
-		where humans.enabled = 1 and
-		(invasion.grunt_type='${String(data.gruntType).toLowerCase()}' or invasion.grunt_type = 'everything') and
+		where humans.enabled = true and
+		(invasion.grunt_type='${data.gruntType}' or invasion.grunt_type = 'everything') and
 		(invasion.gender = ${data.gender} or invasion.gender = 0)`
 
 		if (['pg', 'mysql'].includes(this.config.database.client)) {
 			query = query.concat(`
 			and
-			(
-				(
-					round(
-						6371000 
-						* acos(cos( radians(${data.latitude}) )
-						* cos( radians( humans.latitude ) )
-						* cos( radians( humans.longitude ) - radians(${data.longitude}) )
-						+ sin( radians(${data.latitude}) )
-						* sin( radians( humans.latitude ) ) 
-						) 
-					) < invasion.distance and invasion.distance != 0) 
-					or
-					(
-						invasion.distance = 0 and (${areastring})
-					)
-			)
+			(round( 6371000 * acos( cos( radians(${data.latitude}) )
+				* cos( radians( humans.latitude ) )
+				* cos( radians( humans.longitude ) - radians(${data.longitude}) )
+				+ sin( radians(${data.latitude}) )
+				* sin( radians( humans.latitude ) ) ) < invasion.distance and invasion.distance != 0) or
+				invasion.distance = 0 and (${areastring}))
 				group by humans.id, humans.name, humans.type, humans.latitude, humans.longitude, invasion.template, invasion.distance, invasion.clean, invasion.ping
 			`)
 		} else {
 			query = query.concat(`
-			and ((invasion.distance = 0 and (${areastring})) or invasion.distance > 0)
-			group by humans.id, humans.name, humans.type, humans.latitude, humans.longitude, invasion.template, invasion.distance, invasion.clean, invasion.ping
-		`)
+				and (invasion.distance = 0 and (${areastring}) or invasion.distance > 0)
+				group by humans.id, humans.name, invasion.template
+			`)
 		}
 
 		let result = await this.db.raw(query)
@@ -61,8 +51,8 @@ class Pokestop extends Controller {
 		return result
 	}
 
+
 	async handle(obj) {
-		let pregenerateTile = false
 		const data = obj
 		const minTth = this.config.general.monsterMinimumTimeTillHidden || 0
 		// const minTth = this.config.general.alertMinimumTime || 0
@@ -73,12 +63,8 @@ class Pokestop extends Controller {
 					data.staticmap = `https://tiles.poracle.world/static/${this.config.geocoding.type}/${+data.latitude.toFixed(5)}/${+data.longitude.toFixed(5)}/${this.config.geocoding.zoom}/${this.config.geocoding.width}/${this.config.geocoding.height}/${this.config.geocoding.scale}/png`
 					break
 				}
-				case 'nodetileservercache': {
-					data.staticmap = `${this.config.geocoding.staticProviderURL}`
-					break
-				}
 				case 'tileservercache': {
-					pregenerateTile = true
+					data.staticmap = `${this.config.geocoding.staticProviderURL}`
 					break
 				}
 				case 'google': {
@@ -115,6 +101,7 @@ class Pokestop extends Controller {
 				return []
 			}
 
+
 			data.matched = await this.pointInArea([data.latitude, data.longitude])
 
 			data.gruntTypeId = 0
@@ -125,11 +112,11 @@ class Pokestop extends Controller {
 			}
 
 			data.gruntTypeEmoji = '❓'
-			data.gruntTypeColor = 'BABABA'
+			data.gruntTypeColor = '12595240'
 
 			data.gender = 0
 			data.gruntName = ''
-			data.gruntTypeColor = 'BABABA'
+			data.gruntTypeColor = '12595240'
 			data.gruntRewards = ''
 
 			if (data.gruntTypeId) {
@@ -191,6 +178,7 @@ class Pokestop extends Controller {
 				}
 			}
 
+
 			const whoCares = await this.invasionWhoCares(data)
 
 			this.log.info(`Invasion against ${data.gruntType} appeared and ${whoCares.length} humans cared.`)
@@ -205,10 +193,6 @@ class Pokestop extends Controller {
 
 			const geoResult = await this.getAddress({ lat: data.latitude, lon: data.longitude })
 			const jobs = []
-
-			if (pregenerateTile) {
-				data.staticmap = await this.tileserverPregen.getPregeneratedTileURL('pokestop', data)
-			}
 
 			for (const cares of whoCares) {
 				const caresCache = this.getDiscordCache(cares.id).count
@@ -235,12 +219,12 @@ class Pokestop extends Controller {
 				const mustache = this.mustache.compile(template)
 				const message = JSON.parse(mustache(view))
 				if (cares.ping) {
-					if (!message.content) {
-						message.content = cares.ping
-					} else {
-						message.content += cares.ping
-					}
-				}
+                                        if (!message.content) {
+                                                message.content = cares.ping
+                                        } else {
+                                                message.content += cares.ping
+                                        }
+                                }
 				const work = {
 					lat: data.latitude.toString().substring(0, 8),
 					lon: data.longitude.toString().substring(0, 8),
@@ -264,5 +248,6 @@ class Pokestop extends Controller {
 		}
 	}
 }
+
 
 module.exports = Pokestop

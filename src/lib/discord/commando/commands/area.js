@@ -48,6 +48,7 @@ exports.run = async (client, msg, command) => {
 				}
 				await client.query.updateQuery('humans', { area: JSON.stringify(newAreas) }, { id: target.id })
 
+
 				if (addAreas.length) {
 					await msg.reply(`Added areas: ${addAreas}`)
 				} else {
@@ -66,6 +67,7 @@ exports.run = async (client, msg, command) => {
 					return await msg.reply(`no valid areas there, please use one of ${confAreas}`)
 				}
 				await client.query.updateQuery('humans', { area: JSON.stringify(newAreas) }, { id: target.id })
+
 
 				if (removeAreas.length) {
 					await msg.reply(`Removed areas: ${removeAreas}`)
