@@ -1,15 +1,10 @@
 logs/*.json
 config/*.json
 config/locale/*.json
-.idea
-.vscode 
 
 !config/locale/fr.json
 !config/locale/de.json
 !config/locale/rotom.json
-nominatimData/*
-!nominatimData/.gitkeep
-!nominatimData/postgres/.gitkeep
 
 !config/default.json
 

@@ -1,13 +1,16 @@
+
 const inside = require('point-in-polygon')
 const path = require('path')
 const NodeGeocoder = require('node-geocoder')
 const cp = require('child_process')
+
 const pcache = require('flat-cache')
 
 const geoCache = pcache.load('.geoCache', path.resolve(`${__dirname}../../../`))
 const emojiFlags = require('emoji-flags')
+
 const { log } = require('../lib/logger')
-const TileserverPregen = require('../lib/tileserverPregen')
+
 
 class Controller {
 	constructor(db, config, dts, geofence, monsterData, discordCache, translator, mustache, weatherController) {
@@ -25,12 +28,18 @@ class Controller {
 		this.earthRadius = 6371 * 1000 // m
 		this.weatherController = weatherController
 		this.controllerData = {}
-		this.tileserverPregen = new TileserverPregen()
 	}
 
 	getGeocoder() {
 		switch (this.config.geocoding.provider.toLowerCase()) {
 			case 'poracle': {
+				return NodeGeocoder({
+					provider: 'openstreetmap',
+					osmServer: 'https://geocoding.poracle.world/nominatim/',
+					formatterPattern: this.config.locale.addressformat,
+				})
+			}
+			case 'nominatim': {
 				return NodeGeocoder({
 					provider: 'openstreetmap',
 					osmServer: this.config.geocoding.providerURL,
@@ -139,6 +148,7 @@ class Controller {
 		return matchAreas
 	}
 
+
 	// database methods below
 
 	async selectOneQuery(table, conditions) {
@@ -240,6 +250,7 @@ class Controller {
 		}
 	}
 
+
 	async deleteQuery(table, values) {
 		try {
 			return await this.db(table).where(values).del()
@@ -262,6 +273,7 @@ class Controller {
 		}
 	}
 
+
 	findIvColor(iv) {
 		// it must be perfect if none of the ifs kick in
 		// orange / legendary
@@ -273,7 +285,7 @@ class Controller {
 		else if (iv < 90) colorIdx = 3 // blue / rare
 		else if (iv < 100) colorIdx = 4 // purple epic
 
-		return this.config.discord.ivColors[colorIdx]
+		return parseInt(this.config.discord.ivColors[colorIdx].replace(/^#/, ''), 16)
 	}
 
 	execPromise(command) {
@@ -288,5 +300,6 @@ class Controller {
 		})
 	}
 }
+
 
 module.exports = Controller

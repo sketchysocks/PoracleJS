@@ -43,8 +43,7 @@ exports.run = async (client, msg, command) => {
 			let minDust = 10000000
 			let stardustTracking = 9999999
 			let clean = false
-			let minEnergy = 10000000
-			let energyTracking = 9999999
+
 
 			const argTypes = args.filter((arg) => typeArray.includes(arg))
 			const genCommand = args.filter((arg) => arg.match(client.re.genRe))
@@ -71,10 +70,6 @@ exports.run = async (client, msg, command) => {
 				else if (element === 'stardust') {
 					minDust = 0
 					stardustTracking = -1
-				} else if (element.match(/energy\d/gi)) minEnergy = element.replace(/energy/gi, '')
-				else if (element === 'energy') {
-					minEnergy = 1
-					energyTracking = -1
 				} else if (element === 'shiny') mustShiny = 1
 				else if (element === 'remove') remove = true
 				else if (element === 'clean') clean = true
@@ -92,18 +87,7 @@ exports.run = async (client, msg, command) => {
 					clean,
 				})
 			}
-			if (+minEnergy < 10000000) {
-				questTracks.push({
-					id: target.id,
-					ping: pings,
-					reward: minEnergy,
-					template,
-					shiny: mustShiny,
-					reward_type: 12,
-					distance,
-					clean,
-				})
-			}
+
 			monsters.forEach((pid) => {
 				questTracks.push({
 					id: target.id,
@@ -116,6 +100,7 @@ exports.run = async (client, msg, command) => {
 					clean,
 				})
 			})
+
 			items.forEach((i) => {
 				questTracks.push({
 					id: target.id,
@@ -146,7 +131,7 @@ exports.run = async (client, msg, command) => {
 			monsters.push(0)
 			const remQuery = `
 				delete from quest WHERE id=${target.id} and 
-				((reward_type = 2 and reward in(${items})) or (reward_type = 7 and reward in(${monsters})) or (reward_type = 3 and reward > ${stardustTracking}) or (reward_type = 12 and reward > ${energyTracking}))
+				((reward_type = 2 and reward in(${items})) or (reward_type = 7 and reward in(${monsters})) or (reward_type = 3 and reward > ${stardustTracking}))		
 				`
 			const result = await client.query.misteryQuery(remQuery)
 			reaction = result.length || client.config.database.client === 'sqlite' ? '✅' : reaction
