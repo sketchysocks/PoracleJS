@@ -140,7 +140,7 @@ class Raid extends Controller {
 					pregenerateTile = true
 					break
 				}
-				case 'nodeTileservercache': {
+				case 'nodetileservercache': {
 					data.staticmap = `${this.config.geocoding.staticProviderURL}`
 					break
 				}

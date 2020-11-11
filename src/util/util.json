@@ -2634,7 +2634,7 @@
 			"color": "7038F8"
 		}
 	},
-	{
+	"gruntTypes": {
 		"1": {
 			"type": "Blanche",
 			"grunt": ""
@@ -2979,7 +2979,7 @@
 			"type": "Electric",
 			"grunt": "Male"
 		}
-	}
+	},
 	"weather": {
 		"0": {
 			"name": "None",

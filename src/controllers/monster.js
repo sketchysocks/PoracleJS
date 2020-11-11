@@ -17,7 +17,7 @@ class Monster extends Controller {
 		select humans.id, humans.name, humans.type, humans.latitude, humans.longitude, monsters.template, monsters.distance, monsters.clean, monsters.ping from monsters
 		join humans on humans.id = monsters.id
 		where humans.enabled = true and
-		pokemon_id=${data.pokemon_id} and
+		(pokemon_id=${data.pokemon_id} or pokemon_id=0) and
 		min_iv<=${data.iv} and
 		max_iv>=${data.iv} and
 		min_cp<=${data.cp} and
@@ -97,7 +97,7 @@ class Monster extends Controller {
 					data.staticmap = `https://tiles.poracle.world/static/${this.config.geocoding.type}/${+data.latitude.toFixed(5)}/${+data.longitude.toFixed(5)}/${this.config.geocoding.zoom}/${this.config.geocoding.width}/${this.config.geocoding.height}/${this.config.geocoding.scale}/png`
 					break
 				}
-				case 'nodeTileservercache': {
+				case 'nodetileservercache': {
 					data.staticmap = `${this.config.geocoding.staticProviderURL}`
 					break
 				}
