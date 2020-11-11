@@ -1,4 +1,3 @@
-
 module.exports = (client, member) => {
 	if (!client.users.cache.keyArray().includes(member.id)) {
 		client.query.countQuery('id', 'humans', 'id', member.id).then((isregistered) => {

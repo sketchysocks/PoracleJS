@@ -383,5 +383,4 @@ class Quest extends Controller {
 	}
 }
 
-
 module.exports = Quest

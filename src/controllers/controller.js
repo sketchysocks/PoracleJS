@@ -3,6 +3,7 @@ const path = require('path')
 const NodeGeocoder = require('node-geocoder')
 const cp = require('child_process')
 const pcache = require('flat-cache')
+
 const geoCache = pcache.load('.geoCache', path.resolve(`${__dirname}../../../`))
 const emojiFlags = require('emoji-flags')
 const { log } = require('../lib/logger')
@@ -138,7 +139,6 @@ class Controller {
 		return matchAreas
 	}
 
-
 	// database methods below
 
 	async selectOneQuery(table, conditions) {
@@ -240,7 +240,6 @@ class Controller {
 		}
 	}
 
-
 	async deleteQuery(table, values) {
 		try {
 			return await this.db(table).where(values).del()
@@ -262,7 +261,6 @@ class Controller {
 			}
 		}
 	}
-
 
 	findIvColor(iv) {
 		// it must be perfect if none of the ifs kick in
@@ -290,6 +288,5 @@ class Controller {
 		})
 	}
 }
-
 
 module.exports = Controller
