@@ -14,35 +14,47 @@ class Raid extends Controller {
 		let query = `
 		select humans.id, humans.name, humans.type, humans.latitude, humans.longitude, raid.template, raid.distance, raid.clean, raid.ping from raid
 		join humans on humans.id = raid.id
-		where humans.enabled = true and
+		where humans.enabled = 1 and
 		(pokemon_id=${data.pokemon_id} or (pokemon_id=9000 and raid.level=${data.level})) and
 		(raid.team = ${data.team_id} or raid.team = 4) and
-		(raid.exclusive = ${data.ex} or raid.exclusive = false) and
+		(raid.exclusive = ${data.ex} or raid.exclusive = 0) and
 		(raid.form = ${data.form} or raid.form = 0) `
 
 		if (['pg', 'mysql'].includes(this.config.database.client)) {
 			query = query.concat(`
 			and
-			(round( 6371000 * acos( cos( radians(${data.latitude}) )
-				* cos( radians( humans.latitude ) )
-				* cos( radians( humans.longitude ) - radians(${data.longitude}) )
-				+ sin( radians(${data.latitude}) )
-				* sin( radians( humans.latitude ) ) ) < raid.distance and raid.distance != 0) or
-				raid.distance = 0 and (${areastring}))
+			(
+				(
+					round(
+						6371000 
+						* acos(cos( radians(${data.latitude}) )
+						* cos( radians( humans.latitude ) )
+						* cos( radians( humans.longitude ) - radians(${data.longitude}) )
+						+ sin( radians(${data.latitude}) )
+						* sin( radians( humans.latitude ) ) 
+						) 
+					) < raid.distance and raid.distance != 0) 
+					or
+					(
+						raid.distance = 0 and (${areastring})
+					)
+			)
 				group by humans.id, humans.name, humans.type, humans.latitude, humans.longitude, raid.template, raid.distance, raid.clean, raid.ping
 			`)
 		} else {
 			query = query.concat(`
-				and (raid.distance = 0 and (${areastring}) or raid.distance > 0)
+				and ((raid.distance = 0 and (${areastring})) or raid.distance > 0)
 				group by humans.id, humans.name, raid.template
 			`)
 		}
+
 		let result = await this.db.raw(query)
 
 		if (!['pg', 'mysql'].includes(this.config.database.client)) {
-			result = result.filter((res) => res.distance === 0 || res.distance > 0 && res.distance > this.getDistance({ lat: res.latitude, lon: res.longitude }, { lat: data.latitude, lon: data.longitude }))
+			result = result.filter((res) => +res.distance === 0 || +res.distance > 0 && +res.distance > this.getDistance({ lat: res.latitude, lon: res.longitude }, { lat: data.latitude, lon: data.longitude }))
 		}
 		result = this.returnByDatabaseType(result)
+
 		// remove any duplicates
 		const alertIds = []
 		result = result.filter((alert) => {
@@ -62,34 +74,45 @@ class Raid extends Controller {
 		let query = `
 		select humans.id, humans.name, humans.type, humans.latitude, humans.longitude, egg.template, egg.distance, egg.clean, egg.ping from egg
 		join humans on humans.id = egg.id
-		where humans.enabled = true and
+		where humans.enabled = 1 and
 		egg.level = ${data.level} and
 		(egg.team = ${data.team_id} or egg.team = 4) and
-		(egg.exclusive = ${data.ex} or egg.exclusive = false) `
+		(egg.exclusive = ${data.ex} or egg.exclusive = 0) `
 
 		if (['pg', 'mysql'].includes(this.config.database.client)) {
 			query = query.concat(`
 			and
-			(round( 6371000 * acos( cos( radians(${data.latitude}) )
-				* cos( radians( humans.latitude ) )
-				* cos( radians( humans.longitude ) - radians(${data.longitude}) )
-				+ sin( radians(${data.latitude}) )
-				* sin( radians( humans.latitude ) ) ) < egg.distance and egg.distance != 0) or
-				egg.distance = 0 and (${areastring}))
+			(
+				(
+					round(					
+						6371000 
+						* acos(cos( radians(${data.latitude}) )
+						* cos( radians( humans.latitude ) )
+						* cos( radians( humans.longitude ) - radians(${data.longitude}) )
+						+ sin( radians(${data.latitude}) )
+						* sin( radians( humans.latitude ) ) 
+						) 
+					) < egg.distance and egg.distance != 0) 
+					or
+					(
+						egg.distance = 0 and (${areastring})
+					)
+			)
 				group by humans.id, humans.name, humans.type, humans.latitude, humans.longitude, egg.template, egg.distance, egg.clean, egg.ping
 			`)
 		} else {
 			query = query.concat(`
-				and (egg.distance = 0 and (${areastring}) or egg.distance > 0)
-				group by humans.id, humans.name, egg.template
+				and ((egg.distance = 0 and (${areastring})) or egg.distance > 0)
+				group by humans.id, humans.name, humans.type, humans.latitude, humans.longitude, egg.template, egg.distance, egg.clean, egg.ping
 			`)
 		}
 
 		let result = await this.db.raw(query)
 
 		if (!['pg', 'mysql'].includes(this.config.database.client)) {
-			result = result.filter((res) => res.distance === 0 || res.distance > 0 && res.distance > super.getDistance({ lat: res.latitude, lon: res.longitude }, { lat: data.latitude, lon: data.longitude }))
+			result = result.filter((res) => +res.distance === 0 || +res.distance > 0 && +res.distance > super.getDistance({ lat: res.latitude, lon: res.longitude }, { lat: data.latitude, lon: data.longitude }))
 		}
+
 		result = this.returnByDatabaseType(result)
 		// remove any duplicates
 		const alertIds = []
@@ -103,6 +126,7 @@ class Raid extends Controller {
 	}
 
 	async handle(obj) {
+		let pregenerateTile = false
 		const data = obj
 		const minTth = this.config.general.alertMinimumTime || 0
 
@@ -113,6 +137,10 @@ class Raid extends Controller {
 					break
 				}
 				case 'tileservercache': {
+					pregenerateTile = true
+					break
+				}
+				case 'nodeTileservercache': {
 					data.staticmap = `${this.config.geocoding.staticProviderURL}`
 					break
 				}
@@ -148,6 +176,7 @@ class Raid extends Controller {
 				data.gif = pokemonGif(Number(data.pokemon_id))
 				data.distime = moment(data.end * 1000).tz(geoTz(data.latitude, data.longitude).toString()).format(this.config.locale.time)
 				if (!data.team_id) data.team_id = 0
+				if (!data.evolution) data.evolution = 0
 				if (data.name) data.gymName = data.name ? data.name : ''
 				data.name = this.translator.translate(monster.name)
 				data.imgUrl = await pokicon(this.config.general.imgUrl, data.pokemon_id, data.form, data.evolution, data.gender, data.costume)
@@ -177,6 +206,7 @@ class Raid extends Controller {
 				data.teamName = data.team_id ? this.utilData.teams[data.team_id].name : 'Harmony'
 				data.color = data.team_id ? this.utilData.teams[data.team_id].color : 7915600
 
+				data.evolutionname = data.evolution ? this.utilData.evolution[data.evolution].name : ''
 				data.quickMove = this.utilData.moves[data.move_1] ? this.translator.translate(this.utilData.moves[data.move_1].name) : ''
 				data.chargeMove = this.utilData.moves[data.move_2] ? this.translator.translate(this.utilData.moves[data.move_2].name) : ''
 				data.move1emoji = this.utilData.moves[data.move_1] && this.utilData.moves[data.move_1].type ? this.translator.translate(this.utilData.types[this.utilData.moves[data.move_1].type].emoji) : ''
@@ -205,6 +235,10 @@ class Raid extends Controller {
 
 				const jobs = []
 
+				if (pregenerateTile) {
+					data.staticmap = await this.tileserverPregen.getPregeneratedTileURL('raid', data)
+				}
+
 				for (const cares of whoCares) {
 					const caresCache = this.getDiscordCache(cares.id).count
 
@@ -232,13 +266,13 @@ class Raid extends Controller {
 					const template = JSON.stringify(raidDts.template)
 					const mustache = this.mustache.compile(template)
 					const message = JSON.parse(mustache(view))
-                                	if (cares.ping) {
-                                        	if (!message.content) {
-                                                	message.content = cares.ping
-                                        	} else {
-                                               		message.content += cares.ping
-                                        	}
-                                	}
+					if (cares.ping) {
+						if (!message.content) {
+							message.content = cares.ping
+						} else {
+							message.content += cares.ping
+						}
+					}
 					const work = {
 						lat: data.latitude.toString().substring(0, 8),
 						lon: data.longitude.toString().substring(0, 8),
@@ -257,7 +291,6 @@ class Raid extends Controller {
 				}
 				return jobs
 			}
-
 
 			data.mapurl = `https://www.google.com/maps/search/?api=1&query=${data.latitude},${data.longitude}`
 			data.applemap = `https://maps.apple.com/maps?daddr=${data.latitude},${data.longitude}`
@@ -308,6 +341,10 @@ class Raid extends Controller {
 
 			const jobs = []
 
+			if (pregenerateTile) {
+				data.staticmap = await this.tileserverPregen.getPregeneratedTileURL('raid', data)
+			}
+
 			for (const cares of whoCares) {
 				const caresCache = this.getDiscordCache(cares.id).count
 				const view = {
@@ -336,12 +373,12 @@ class Raid extends Controller {
 				const message = JSON.parse(mustache(view))
 
 				if (cares.ping) {
-                                        if (!message.content) {
-                                                message.content = cares.ping
-                                        } else {
-                                                message.content += cares.ping
-                                        }
-                                }
+					if (!message.content) {
+						message.content = cares.ping
+					} else {
+						message.content += cares.ping
+					}
+				}
 
 				const work = {
 					lat: data.latitude.toString().substring(0, 8),
@@ -365,6 +402,5 @@ class Raid extends Controller {
 		}
 	}
 }
-
 
 module.exports = Raid
