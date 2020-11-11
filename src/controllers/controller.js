@@ -273,7 +273,7 @@ class Controller {
 		else if (iv < 90) colorIdx = 3 // blue / rare
 		else if (iv < 100) colorIdx = 4 // purple epic
 
-		return parseInt(this.config.discord.ivColors[colorIdx].replace(/^#/, ''), 16)
+		return this.config.discord.ivColors[colorIdx]
 	}
 
 	execPromise(command) {
