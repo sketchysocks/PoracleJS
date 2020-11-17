@@ -132,6 +132,7 @@ class Raid extends Controller {
 					data.staticmap = ''
 				}
 			}
+			data.gym_name = data.gym_name.replace(/"/g, '')
 
 			if (data.pokemon_id) {
 				if (data.form === undefined || data.form === null) data.form = 0
@@ -175,7 +176,7 @@ class Raid extends Controller {
 				data.emojiString = e.join('')
 
 				data.teamName = data.team_id ? this.utilData.teams[data.team_id].name : 'Harmony'
-				data.color = data.team_id ? this.utilData.teams[data.team_id].color : 7915600
+				data.color = data.team_id ? this.utilData.teams[data.team_id].color : 'BABABA'
 
 				data.quickMove = this.utilData.moves[data.move_1] ? this.translator.translate(this.utilData.moves[data.move_1].name) : ''
 				data.chargeMove = this.utilData.moves[data.move_2] ? this.translator.translate(this.utilData.moves[data.move_2].name) : ''
@@ -232,13 +233,13 @@ class Raid extends Controller {
 					const template = JSON.stringify(raidDts.template)
 					const mustache = this.mustache.compile(template)
 					const message = JSON.parse(mustache(view))
-                                	if (cares.ping) {
-                                        	if (!message.content) {
-                                                	message.content = cares.ping
-                                        	} else {
-                                               		message.content += cares.ping
-                                        	}
-                                	}
+					if (cares.ping) {
+						if (!message.content) {
+							message.content = cares.ping
+						} else {
+							message.content += cares.ping
+						}
+					}
 					const work = {
 						lat: data.latitude.toString().substring(0, 8),
 						lon: data.longitude.toString().substring(0, 8),
@@ -257,7 +258,6 @@ class Raid extends Controller {
 				}
 				return jobs
 			}
-
 
 			data.mapurl = `https://www.google.com/maps/search/?api=1&query=${data.latitude},${data.longitude}`
 			data.applemap = `https://maps.apple.com/maps?daddr=${data.latitude},${data.longitude}`
@@ -282,9 +282,9 @@ class Raid extends Controller {
 				data.staticmap = `${data.staticmap}?markers=${data.staticSprite}`
 			}
 			if (!data.team_id) data.team_id = 0
-			if (data.name) data.gymName = data.name
+			if (data.name) data.gymName = data.name.replace(/"/g, '')
 			data.teamname = data.team_id ? this.utilData.teams[data.team_id].name : 'Harmony'
-			data.color = data.team_id ? this.utilData.teams[data.team_id].color : 7915600
+			data.color = data.team_id ? this.utilData.teams[data.team_id].color : 'BABABA'
 			data.ex = !!(data.ex_raid_eligible || data.is_ex_raid_eligible)
 			if (data.tth.firstDateWasLater || ((data.tth.hours * 3600) + (data.tth.minutes * 60) + data.tth.seconds) < minTth) {
 				log.debug(`Raid against ${data.name} already disappeared or is about to expire in: ${data.tth.hours}:${data.tth.minutes}:${data.tth.seconds}`)
@@ -336,12 +336,12 @@ class Raid extends Controller {
 				const message = JSON.parse(mustache(view))
 
 				if (cares.ping) {
-                                        if (!message.content) {
-                                                message.content = cares.ping
-                                        } else {
-                                                message.content += cares.ping
-                                        }
-                                }
+					if (!message.content) {
+						message.content = cares.ping
+					} else {
+						message.content += cares.ping
+					}
+				}
 
 				const work = {
 					lat: data.latitude.toString().substring(0, 8),
@@ -365,6 +365,5 @@ class Raid extends Controller {
 		}
 	}
 }
-
 
 module.exports = Raid
