@@ -25,7 +25,7 @@ class Worker {
 		this.userCount += 1
 	}
 
-	async setLitseners() {
+	async setListeners() {
 		this.client.on('error', (err) => {
 			this.busy = true
 			log.error(`Discord worker #${this.id} \n bouncing`, err)
@@ -44,7 +44,7 @@ class Worker {
 		delete this.client
 		this.client = new Client()
 		try {
-			await this.setLitseners()
+			await this.setListeners()
 			await this.client.login(this.token)
 			await this.client.user.setStatus('invisible')
 		} catch (err) {
