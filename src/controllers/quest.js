@@ -140,7 +140,6 @@ class Quest extends Controller {
 
 			const whoCares = await this.questWhoCares(data)
 
-
 			if (!whoCares[0]) return []
 
 			let discordCacheBad = true // assume the worst
@@ -181,12 +180,12 @@ class Quest extends Controller {
 				const message = JSON.parse(mustache(view))
 
 				if (cares.ping) {
-                                        if (!message.content) {
-                                                message.content = cares.ping
-                                        } else {
-                                                message.content += cares.ping
-                                        }
-                                }
+					if (!message.content) {
+						message.content = cares.ping
+					} else {
+						message.content += cares.ping
+					}
+				}
 
 				const work = {
 					lat: data.latitude.toString().substring(0, 8),
@@ -351,6 +350,5 @@ class Quest extends Controller {
 		})
 	}
 }
-
 
 module.exports = Quest
