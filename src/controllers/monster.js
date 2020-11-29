@@ -191,7 +191,7 @@ class Monster extends Controller {
 						last = entry
 					}
 				}
-				data[rankings] = filtered
+				data[rankings] = filtered.length > 0 ? filtered : null
 				data[rank] = bestRank
 			}
 			simplifyPvpStats('pvp_rankings_great_league', 'bestGreatLeagueRank')
