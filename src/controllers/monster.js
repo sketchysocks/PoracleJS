@@ -166,10 +166,8 @@ class Monster extends Controller {
 			data.emojiString = e.join('')
 
 			// todo: spit out a best rank for each level cap, a fun exercise for some turtle maybe :feelslapras:
-			const simplifyPvpStats = (rankings, rank) => {
-				if (!data[rankings]) {
-					return
-				}
+			const simplifyPvpStats = (rankings) => {
+				if (!data[rankings]) return 9999
 				const filtered = []
 				let bestRank = 4096
 				let last
@@ -192,10 +190,10 @@ class Monster extends Controller {
 					}
 				}
 				data[rankings] = filtered.length > 0 ? filtered : null
-				data[rank] = bestRank
+				return bestRank
 			}
-			simplifyPvpStats('pvp_rankings_great_league', 'bestGreatLeagueRank')
-			simplifyPvpStats('pvp_rankings_ultra_league', 'bestUltraLeagueRank')
+			data.bestGreatLeagueRank = simplifyPvpStats('pvp_rankings_great_league')
+			data.bestUltraLeagueRank = simplifyPvpStats('pvp_rankings_ultra_league')
 
 			data.staticSprite = encodeURI(JSON.stringify([
 				{
