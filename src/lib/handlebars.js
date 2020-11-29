@@ -32,9 +32,19 @@ module.exports = () => {
 
 	handlebars.registerHelper('pokemonName', (value) => {
 		let result = ''
-		// TODO: add evolution, experimental stats mark, and form
+		if (value.evolution) {
+			// TODO: add evolution, experimental stats mark
+		}
+		if (value.form) {
+			// TODO: add form
+		}
 		const monster = Object.values(monsters).find((m) => m.id === value.pokemon)
 		result += monster ? translator.translate(monster.name) : ''
+		return result
+	})
+	handlebars.registerHelper('pokemonLevelCap', (value) => {
+		let result = value.level
+		if (value.cap !== undefined && value.capped !== true) result += `/${value.cap}`
 		return result
 	})
 
