@@ -34,10 +34,10 @@ class Monster extends Controller {
 		max_sta>=${data.individual_stamina} and
 		min_weight<=${data.weight} * 1000 and
 		max_weight>=${data.weight} * 1000 and
-		great_league_ranking>=${data.bestGreatLeagueRank} and
-		ultra_league_ranking>=${data.bestUltraLeagueRank} and 
 		timer<=${data.tth.minutes}
 		`
+		if (data.bestGreatLeagueRank) query += ` and great_league_ranking >= ${data.bestGreatLeagueRank}`
+		if (data.bestUltraLeagueRank) query += ` and ultra_league_ranking >= ${data.bestUltraLeagueRank}`
 
 		if (['pg', 'mysql'].includes(this.config.database.client)) {
 			query = query.concat(`
@@ -167,7 +167,7 @@ class Monster extends Controller {
 
 			// todo: spit out a best rank for each level cap, a fun exercise for some turtle maybe :feelslapras:
 			const simplifyPvpStats = (rankings) => {
-				if (!data[rankings]) return 9999
+				if (!data[rankings]) return null
 				const filtered = []
 				let bestRank = 4096
 				let last
