@@ -1,6 +1,7 @@
 const handlebars = require('handlebars')
 const config = require('config')
 const monsters = require('../util/monsters')
+const masterfile = require('../util/masterfile.json')
 const { cpMultipliers, moves, types } = require('../util/util')
 
 const Translator = require(`${__dirname}/../util/translate`)
@@ -32,11 +33,14 @@ module.exports = () => {
 
 	handlebars.registerHelper('pokemonName', (value) => {
 		let result = ''
+		const pokemon = masterfile.pokemon[value.pokemon] || {}
 		if (value.evolution) {
-			// TODO: add evolution, experimental stats mark
+			if (((pokemon.temp_evolutions || [])[value.evolution] || {}).unreleased) result += '*'
+			result += `${[null, 'Mega', 'Mega X', 'Mega Y'][value.evolution]} `	// TODO: i18n
 		}
 		if (value.form) {
-			// TODO: add form
+			const formName = (pokemon.forms[value.form] || {}).name
+			if (formName) result += `${formName} `
 		}
 		const monster = Object.values(monsters).find((m) => m.id === value.pokemon)
 		result += monster ? translator.translate(monster.name) : ''
