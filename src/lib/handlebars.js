@@ -40,7 +40,8 @@ module.exports = () => {
 		}
 		if (value.form) {
 			const formName = (pokemon.forms[value.form] || {}).name
-			if (formName) result += `${formName} `
+			// FIXME: DUGTRIO_NORMAL has base defense 136 instead of 134, remove when/if Niantic fixes it
+			if (formName && (value.pokemon === 50 || value.pokemon === 51 || formName !== 'Normal')) result += `${formName} `
 		}
 		const monster = Object.values(monsters).find((m) => m.id === value.pokemon)
 		result += monster ? translator.translate(monster.name) : ''
