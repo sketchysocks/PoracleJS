@@ -35,9 +35,7 @@ class Monster extends Controller {
 		min_weight<=${data.weight} * 1000 and
 		max_weight>=${data.weight} * 1000 and
 		great_league_ranking>=${data.bestGreatLeagueRank} and
-		great_league_ranking_min_cp<=${data.bestGreatLeagueRankCP} and 
-		ultra_league_ranking>=${data.bestUltraLeagueRank} and 
-		ultra_league_ranking_min_cp<=${data.bestUltraLeagueRankCP} and
+		ultra_league_ranking>=${data.bestUltraLeagueRank} and
 		timer<=${data.tth.minutes}
 		`
 
@@ -167,31 +165,35 @@ class Monster extends Controller {
 			data.emoji = e
 			data.emojiString = e.join('')
 
-			data.bestGreatLeagueRank = 4096
-			data.bestGreatLeagueRankCP = 0
-			if (data.pvp_rankings_great_league) {
-				for (const stats of data.pvp_rankings_great_league) {
-					if (stats.rank && stats.rank < data.bestGreatLeagueRank) {
-						data.bestGreatLeagueRank = stats.rank
-						data.bestGreatLeagueRankCP = stats.cp || 0
-					} else if (stats.rank && stats.cp && stats.rank === data.bestGreatLeagueRank && stats.cp > data.bestGreatLeagueRankCP) {
-						data.bestGreatLeagueRankCP = stats.cp
+			// todo: spit out a best rank for each level cap, a fun exercise for some turtle maybe :feelslapras:
+			const simplifyPvpStats = (rankings) => {
+				if (!data[rankings]) return 4096
+				const filtered = []
+				let bestRank = 4096
+				let last
+				for (const entry of data[rankings]) {
+					if (entry.rank < bestRank) {
+						bestRank = entry.rank
+					}
+					// the following code merges duplicate rankings
+					// DO NOT CHANGE IT, submit changes to MapJS and copy from there instead
+					if (last !== undefined && last.pokemon === entry.pokemon
+						&& last.form === entry.form && last.evolution === entry.evolution
+						&& last.level === entry.level && last.rank === entry.rank) {
+						last.cap = entry.cap
+						if (entry.capped) {
+							last.capped = true
+						}
+					} else {
+						filtered.push(entry)
+						last = entry
 					}
 				}
+				data[rankings] = filtered.length > 0 ? filtered : null
+				return bestRank
 			}
-
-			data.bestUltraLeagueRank = 4096
-			data.bestUltraLeagueRankCP = 0
-			if (data.pvp_rankings_ultra_league) {
-				for (const stats of data.pvp_rankings_ultra_league) {
-					if (stats.rank && stats.rank < data.bestUltraLeagueRank) {
-						data.bestUltraLeagueRank = stats.rank
-						data.bestUltraLeagueRankCP = stats.cp || 0
-					} else if (stats.rank && stats.cp && stats.rank === data.bestUltraLeagueRank && stats.cp > data.bestUltraLeagueRankCP) {
-						data.bestUltraLeagueRankCP = stats.cp
-					}
-				}
-			}
+			data.bestGreatLeagueRank = simplifyPvpStats('pvp_rankings_great_league')
+			data.bestUltraLeagueRank = simplifyPvpStats('pvp_rankings_ultra_league')
 
 			data.staticSprite = encodeURI(JSON.stringify([
 				{

@@ -1,6 +1,7 @@
 const handlebars = require('handlebars')
 const config = require('config')
 const monsters = require('../util/monsters')
+const masterfile = require('../util/masterfile.json')
 const { cpMultipliers, moves, types } = require('../util/util')
 
 const Translator = require(`${__dirname}/../util/translate`)
@@ -31,17 +32,25 @@ module.exports = () => {
 	})
 
 	handlebars.registerHelper('pokemonName', (value) => {
-		if (!+value) return ''
-		const monster = Object.values(monsters).find((m) => m.id === +value)
-		if (!monster) return ''
-		return translator.translate(monster.name)
+		let result = ''
+		const pokemon = masterfile.pokemon[value.pokemon] || {}
+		if (value.evolution) {
+			if (((pokemon.temp_evolutions || [])[value.evolution] || {}).unreleased) result += '*'
+			result += `${[null, 'Mega', 'Mega X', 'Mega Y'][value.evolution]} `	// TODO: i18n
+		}
+		if (value.form) {
+			const formName = (pokemon.forms[value.form] || {}).name
+			// FIXME: DUGTRIO_NORMAL has base defense 136 instead of 134, remove when/if Niantic fixes it
+			if (formName && (value.pokemon === 50 || value.pokemon === 51 || formName !== 'Normal')) result += `${formName} `
+		}
+		const monster = Object.values(monsters).find((m) => m.id === value.pokemon)
+		result += monster ? translator.translate(monster.name) : ''
+		return result
 	})
-
-	handlebars.registerHelper('pokemonName', (value) => {
-		if (!+value) return ''
-		const monster = Object.values(monsters).find((m) => m.id === +value)
-		if (!monster) return ''
-		return translator.translate(monster.name)
+	handlebars.registerHelper('pokemonLevelCap', (value) => {
+		let result = value.level
+		if (value.cap !== undefined && value.capped !== true) result += `/${value.cap}`
+		return result
 	})
 
 	handlebars.registerHelper('calculateCp', (baseStats, level = 25, ivAttack = 15, ivDefense = 15, ivStamina = 15) => {
