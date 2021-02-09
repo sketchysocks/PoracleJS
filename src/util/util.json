@@ -2650,16 +2650,22 @@
 			"gender": 1,
 			"grunt": "Spark"
 		},
-		"4": {
-			"type": "Grunt",
-			"gender": 1,
-			"grunt": "Grunt"
-		},
-		"5": {
-			"type": "Grunt",
-			"gender": 2,
-			"grunt": "Grunt"
-		},
+    "4": {
+      "type": "Mixed",
+      "gender": 1,
+      "grunt": "Mixed Grunt"
+    },
+    "5": {
+        "type": "Mixed",
+        "gender": 2,
+        "grunt": "Mixed Grunt",
+        "second_reward": false,
+        "encounters": {
+            "first": [143],
+            "second": [62, 143, 282],
+            "third": [130, 143, 149]
+        }
+    },
 		"6": {
 			"type": "Bug",
 			"gender": 2,
