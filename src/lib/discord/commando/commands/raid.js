@@ -33,6 +33,7 @@ exports.run = async (client, msg, command) => {
 
 		for (const args of command) {
 			const remove = !!args.find((arg) => arg === 'remove')
+			const commandEverything = !!args.find((arg) => arg === 'everything')
 
 			let monsters = []
 			let exclusive = 0
@@ -47,12 +48,12 @@ exports.run = async (client, msg, command) => {
 
 			if (formNames.length) {
 				monsters = Object.values(client.monsters).filter((mon) => ((args.includes(mon.name.toLowerCase()) || args.includes(mon.id.toString())) && formNames.includes(mon.form.name.toLowerCase())
-				|| mon.types.map((t) => t.name.toLowerCase()).find((t) => argTypes.includes(t)) && formNames.includes(mon.form.name.toLowerCase())
-				|| args.includes('template'))	&& formNames.includes(mon.form.name.toLowerCase()))
+          || mon.types.map((t) => t.name.toLowerCase()).find((t) => argTypes.includes(t)) && formNames.includes(mon.form.name.toLowerCase())
+          || args.includes('template')) && formNames.includes(mon.form.name.toLowerCase()))
 			} else {
 				monsters = Object.values(client.monsters).filter((mon) => ((args.includes(mon.name.toLowerCase()) || args.includes(mon.id.toString())) && !mon.form.id
-				|| mon.types.map((t) => t.name.toLowerCase()).find((t) => argTypes.includes(t)) && !mon.form.id
-				|| args.includes('template'))	&& !mon.form.id)
+          || mon.types.map((t) => t.name.toLowerCase()).find((t) => argTypes.includes(t)) && !mon.form.id
+          || args.includes('template')) && !mon.form.id)
 			}
 
 			const genCommand = args.filter((arg) => arg.match(client.re.genRe))
@@ -120,6 +121,11 @@ exports.run = async (client, msg, command) => {
 					const lvlResult = await client.query.deleteWhereInQuery('raid', target.id, levels, 'level')
 					client.log.info(`${target.name} stopped tracking level ${levels.join(', ')} raids`)
 					result += lvlResult
+				}
+				if (commandEverything) {
+					const everythingResult = await client.query.deleteQuery('raid', { id: target.id })
+					client.log.info(`${target.name} stopped tracking all raids`)
+					result += everythingResult
 				}
 				reaction = result.length || client.config.database.client === 'sqlite' ? '✅' : reaction
 			}

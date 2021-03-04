@@ -1,4 +1,3 @@
-const config = require('config')
 const { log } = require('../../logger')
 
 exports.up = async function migrationUp(knex) {
@@ -9,7 +8,6 @@ exports.up = async function migrationUp(knex) {
 		table.integer('ultra_league_ranking').notNullable().defaultTo(4096)
 		table.integer('ultra_league_ranking_min_cp').notNullable().defaultTo(0)
 		table.integer('timer').notNullable().defaultTo(0)
-		if (config.database.client !== 'sqlite') { table.dropForeign(['id']) }
 		table.dropUnique(null, 'monsters_tracking')
 		table.unique([
 			'id', 'pokemon_id', 'min_iv', 'max_iv', 'min_level', 'max_level', 'atk', 'def', 'sta', 'form', 'gender',
