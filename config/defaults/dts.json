@@ -55,7 +55,7 @@
     "embed": {
       "color": "{{color}}",
       "title": "{{name}}{{#if id}}{{#is id 201}} {{formname}}{{/is}}{{/if}} {{capitalizeAll areas}} for {{tthm}}m {{tths}}s",
-      "description": "{{#if confirmedTime}}Despawn Timer **Verified** :white_check_mark:{{else}}Timer is **Estimated** :question:{{/if}}\n{{addr}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}}) | [Waze]({{{waze}}})",
+      "description": "{{#if confirmedTime}}Despawn Timer **Verified** :white_check_mark:{{else}}Timer is **Estimated** :question:{{/if}}\nWeather Boost: {{capitalizeAll boost}} {{boostemoji}}\n{{addr}}\n[Google Maps]({{{mapurl}}}) | [Apple Maps]({{{applemap}}}) | [Waze]({{{waze}}})",
       "thumbnail": {
         "url": "{{{imgUrl}}}"
       },
