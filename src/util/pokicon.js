@@ -28,16 +28,22 @@ function resolvePokemonIcon(availPokemon, pokemonId, form = 0, evolution = 0, ge
 
 async function pokicon(baseUrl, pokemonId, form = 0, evolution = 0, female = false, costume = 0,
 	shiny = false) {
+	let currentSet
 	await sema.acquire()
 	try {
-		if (availablePokemon[baseUrl] === undefined) {
+		currentSet = availablePokemon[baseUrl]
+		if (currentSet === undefined || Date.now() - currentSet.lastRetrieved > 60 * 60 * 1000) {
 			const response = await axios.get(`${baseUrl}/index.json`)
-			availablePokemon[baseUrl] = new Set(response.data)
+			currentSet = new Set(response.data)
+			currentSet.lastRetrieved = Date.now()
+			availablePokemon[baseUrl] = currentSet
 		}
+	} catch (e) {
+		console.warn(e)
 	} finally {
 		sema.release()
 	}
-	return `${baseUrl}/${resolvePokemonIcon(availablePokemon[baseUrl], pokemonId, form, evolution, female, costume, shiny)}.png`
+	return `${baseUrl}/${resolvePokemonIcon(currentSet, pokemonId, form, evolution, female, costume, shiny)}.png`
 }
 
 module.exports = pokicon
