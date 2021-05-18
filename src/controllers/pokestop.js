@@ -121,11 +121,11 @@ class Pokestop extends Controller {
 				data.gender = 0
 				data.gruntName = 'Grunt'
 				data.gruntType = 'Mixed'
-				data.gruntRewards = ''
+				data.gruntRewards = 'Rewards were not parsed correctly, RIP'
 				if (data.gruntTypeId in this.utilData.gruntTypes) {
 					const gruntType = this.utilData.gruntTypes[data.gruntTypeId]
-					data.gruntName = gruntType.grunt
-					data.gender = gruntType.gender
+					data.gruntName = `${gruntType.type} Grunt`
+					data.gender = gruntType.grunt === 'female' ? 2 : 1
 					if (this.utilData.types[gruntType.type]) {
 						data.gruntTypeEmoji = this.translator.translate(this.utilData.types[gruntType.type].emoji)
 					}
