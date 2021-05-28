@@ -21,6 +21,8 @@ module.exports = (translator) => ({
 	greatLeagueCPRe: new RegExp(`${translator.translate('greatcp')}\\d{1,5}`, 'gi'),
 	ultraLeagueRe: new RegExp(`${translator.translate('ultra')}\\d{1,4}`, 'gi'),
 	ultraLeagueCPRe: new RegExp(`${translator.translate('ultracp')}\\d{1,5}`, 'gi'),
+	littleLeagueRe: new RegExp(`${translator.translate('little')}\\d{1,4}`, 'gi'),
+	littleLeagueCPRe: new RegExp(`${translator.translate('littlecp')}\\d{1,5}`, 'gi'),
 	dRe: new RegExp(`(${translator.translate('d')})[\\d.]{1,}`, 'gi'),
 	tRe: new RegExp(`(${translator.translate('t')})[\\d.]{1,}`, 'gi'),
 	stardustRe: new RegExp(`${translator.translate('stardust')}\\d{1,8}`, 'gi'),

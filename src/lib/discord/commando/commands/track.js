@@ -54,6 +54,8 @@ exports.run = async (client, msg, command) => {
 			let greatLeagueCP = 0
 			let ultraLeague = 4096
 			let ultraLeagueCP = 0
+      let littleLeague = 4096
+      let littleLeagueCP = 0
 			let template = 1
 			let clean = false
 			let timer = 0
@@ -84,6 +86,8 @@ exports.run = async (client, msg, command) => {
 				else if (element.match(client.re.greatLeagueCPRe)) greatLeagueCP = element.match(client.re.greatLeagueCPRe)[0].replace(client.translator.translate('greatcp'), '')
 				else if (element.match(client.re.ultraLeagueRe)) ultraLeague = element.match(client.re.ultraLeagueRe)[0].replace(client.translator.translate('ultra'), '')
 				else if (element.match(client.re.ultraLeagueCPRe)) ultraLeagueCP = element.match(client.re.ultraLeagueCPRe)[0].replace(client.translator.translate('ultracp'), '')
+				else if (element.match(client.re.littleLeagueRe)) littleLeague = element.match(client.re.littleLeagueRe)[0].replace(client.translator.translate('little'), '')
+				else if (element.match(client.re.littleLeagueCPRe)) littleLeagueCP = element.match(client.re.littleLeagueCPRe)[0].replace(client.translator.translate('littlecp'), '')
 				else if (element.match(client.re.maxcpRe)) maxcp = element.match(client.re.maxcpRe)[0].replace(client.translator.translate('maxcp'), '')
 				else if (element.match(client.re.maxivRe)) maxiv = element.match(client.re.maxivRe)[0].replace(client.translator.translate('maxiv'), '')
 				else if (element.match(client.re.maxweightRe)) maxweight = element.match(client.re.maxweightRe)[0].replace(client.translator.translate('maxweight'), '')
@@ -131,6 +135,8 @@ exports.run = async (client, msg, command) => {
 				great_league_ranking_min_cp: greatLeagueCP,
 				ultra_league_ranking: ultraLeague,
 				ultra_league_ranking_min_cp: ultraLeagueCP,
+				little_league_ranking: littleLeague,
+				little_league_ranking_min_cp: littleLeagueCP,
 				timer,
 			}))
 			if (!insert.length) {
