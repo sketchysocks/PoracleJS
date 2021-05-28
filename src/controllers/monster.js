@@ -34,8 +34,9 @@ class Monster extends Controller {
 		max_sta>=${data.individual_stamina} and
 		min_weight<=${data.weight} * 1000 and
 		max_weight>=${data.weight} * 1000 and
-		great_league_ranking>=${data.bestGreatLeagueRank} and
+    great_league_ranking>=${data.bestGreatLeagueRank} and
 		ultra_league_ranking>=${data.bestUltraLeagueRank} and
+    little_league_ranking>=${data.bestLittleLeagueRank} and
 		timer<=${data.tth.minutes}
 		`
 
@@ -192,9 +193,50 @@ class Monster extends Controller {
 				data[rankings] = filtered.length > 0 ? filtered : null
 				return bestRank
 			}
-			data.bestGreatLeagueRank = simplifyPvpStats('pvp_rankings_great_league')
-			data.bestUltraLeagueRank = simplifyPvpStats('pvp_rankings_ultra_league')
-
+			const pvpV2 = (pvpData) => {
+				if (!pvpData) return 4096
+				const filtered = {}
+				Object.keys(pvpData).forEach((league) => {
+					filtered[league] = {
+						best: 4096,
+						last: undefined,
+						ranks: [],
+					}
+					pvpData[league].forEach((entry) => {
+						if (entry.rank < filtered[league].best) {
+							filtered[league].best = entry.rank
+						}
+						// the following code merges duplicate rankings
+						// DO NOT CHANGE IT, submit changes to MapJS and copy from there instead
+						if (filtered[league].last !== undefined
+                && filtered[league].last.pokemon === entry.pokemon
+                && filtered[league].last.form === entry.form
+                && filtered[league].last.evolution === entry.evolution
+                && filtered[league].last.level === entry.level
+                && filtered[league].last.rank === entry.rank) {
+							filtered[league].last.cap = entry.cap
+							if (entry.capped) {
+								filtered[league].last.capped = true
+							}
+						} else {
+							filtered[league].ranks.push(entry)
+							filtered[league].last = entry
+						}
+					})
+					data[`pvp_rankings_${league}_league`] = filtered[league].ranks.length > 0 ? filtered[league].ranks : null
+				})
+				return { ...filtered }
+			}
+			if (data.pvp) {
+				const { great, ultra, little } = pvpV2(data.pvp)
+				data.bestGreatLeagueRank = great ? great.best : 4096
+				data.bestUltraLeagueRank = ultra ? ultra.best : 4096
+				data.bestLittleLeagueRank = little ? little.best : 4096
+			} else {
+				data.bestGreatLeagueRank = simplifyPvpStats('pvp_rankings_great_league')
+				data.bestUltraLeagueRank = simplifyPvpStats('pvp_rankings_ultra_league')
+				data.bestLittleLeagueRank = 4096
+			}
 			data.staticSprite = encodeURI(JSON.stringify([
 				{
 					url: data.imgUrl,
@@ -275,7 +317,6 @@ class Monster extends Controller {
 					def: data.individual_defense,
 					sta: data.individual_stamina,
 					imgUrl: data.imgUrl,
-					// pokemoji: emojiData.pokemon[data.pokemon_id],
 					areas: data.matched.map((area) => area.replace(/'/gi, '').replace(/ /gi, '-')).join(', '),
 				}
 				let monsterDts
