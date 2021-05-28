@@ -54,8 +54,8 @@ exports.run = async (client, msg, command) => {
 			let greatLeagueCP = 0
 			let ultraLeague = 4096
 			let ultraLeagueCP = 0
-      let littleLeague = 4096
-      let littleLeagueCP = 0
+			let littleLeague = 4096
+			let littleLeagueCP = 0
 			let template = 1
 			let clean = false
 			let timer = 0
