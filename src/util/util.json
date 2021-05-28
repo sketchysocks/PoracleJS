@@ -2550,7 +2550,7 @@
 		},
 		"Poison": {
 			"id": 4,
-			"emoji": "☠",
+			"emoji": "☠️",
 			"color": "A040A0"
 		},
 		"Fire": {
@@ -2560,7 +2560,7 @@
 		},
 		"Flying": {
 			"id": 3,
-			"emoji": "🐦",
+			"emoji": "💨",
 			"color": "A890F0"
 		},
 		"Water": {
@@ -2590,7 +2590,7 @@
 		},
 		"Rock": {
 			"id": 6,
-			"emoji": "🗿",
+			"emoji": "🗻",
 			"color": "B8A038"
 		},
 		"Ground": {
@@ -2605,7 +2605,7 @@
 		},
 		"Fighting": {
 			"id": 2,
-			"emoji": "👊",
+			"emoji": "🥊",
 			"color": "C03028"
 		},
 		"Psychic": {
@@ -2630,7 +2630,7 @@
 		},
 		"Dragon": {
 			"id": 16,
-			"emoji": "🐲",
+			"emoji": "🐉",
 			"color": "7038F8"
 		}
 	},
