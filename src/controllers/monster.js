@@ -194,7 +194,7 @@ class Monster extends Controller {
 				return bestRank
 			}
 			const pvpV2 = (pvpData) => {
-				if (!pvpData) return 4096
+				if (!pvpData) return { great: 4096, ultra: 4096, little: 4096 }
 				const filtered = {}
 				Object.keys(pvpData).forEach((league) => {
 					filtered[league] = {
@@ -202,28 +202,28 @@ class Monster extends Controller {
 						last: undefined,
 						ranks: [],
 					}
-					pvpData[league].forEach((entry) => {
-						if (entry.rank < filtered[league].best) {
-							filtered[league].best = entry.rank
-						}
-						// the following code merges duplicate rankings
-						// DO NOT CHANGE IT, submit changes to MapJS and copy from there instead
-						if (filtered[league].last !== undefined
-                && filtered[league].last.pokemon === entry.pokemon
-                && filtered[league].last.form === entry.form
-                && filtered[league].last.evolution === entry.evolution
-                && filtered[league].last.level === entry.level
-                && filtered[league].last.rank === entry.rank) {
-							filtered[league].last.cap = entry.cap
-							if (entry.capped) {
-								filtered[league].last.capped = true
+					if (pvpData[league].length) {
+						pvpData[league].forEach((entry) => {
+							if (entry.rank < filtered[league].best) {
+								filtered[league].best = entry.rank
 							}
-						} else {
-							filtered[league].ranks.push(entry)
-							filtered[league].last = entry
-						}
-					})
-					data[`pvp_rankings_${league}_league`] = filtered[league].ranks.length > 0 ? filtered[league].ranks : null
+							if (filtered[league].last !== undefined
+                  && filtered[league].last.pokemon === entry.pokemon
+                  && filtered[league].last.form === entry.form
+                  && filtered[league].last.evolution === entry.evolution
+                  && filtered[league].last.level === entry.level
+                  && filtered[league].last.rank === entry.rank) {
+								filtered[league].last.cap = entry.cap
+								if (entry.capped) {
+									filtered[league].last.capped = true
+								}
+							} else {
+								filtered[league].ranks.push(entry)
+								filtered[league].last = entry
+							}
+						})
+						data[`pvp_rankings_${league}_league`] = filtered[league].ranks.length > 0 ? filtered[league].ranks : null
+					}
 				})
 				return { ...filtered }
 			}
