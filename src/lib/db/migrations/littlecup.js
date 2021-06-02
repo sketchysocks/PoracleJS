@@ -3,7 +3,7 @@ const { log } = require('../../logger')
 exports.up = async function migrationUp(knex) {
 	await knex.schema.alterTable('monsters', (table) => {
 		table.integer('little_league_ranking').notNullable().defaultTo(4096)
-		table.integer('little_league_ranking_min_cp').notNullable().defaultTo(4096)
+		table.integer('little_league_ranking_min_cp').notNullable().defaultTo(0)
 		table.dropUnique(null, 'monsters_tracking')
 		table.unique([
 			'id', 'pokemon_id', 'min_iv', 'max_iv', 'min_level', 'max_level', 'atk', 'def', 'sta', 'form', 'gender',

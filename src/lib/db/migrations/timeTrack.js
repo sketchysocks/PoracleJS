@@ -1,7 +1,6 @@
 const { log } = require('../../logger')
 
 exports.up = async function migrationUp(knex) {
-	// monsters_tracking key: removed: max_weight, max_atk, max_def, max_sta; added: ^ 4 cols above
 	await knex.schema.alterTable('monsters', (table) => {
 		table.integer('great_league_ranking').notNullable().defaultTo(4096)
 		table.integer('great_league_ranking_min_cp').notNullable().defaultTo(0)
