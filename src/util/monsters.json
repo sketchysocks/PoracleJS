@@ -2774,6 +2774,90 @@
 			}
 		]
 	},
+	"25_2675": {
+		"name": "Pikachu",
+		"form": {
+			"id": 977,
+			"name": "Kariyushi"
+		},
+		"id": 25,
+		"stats": {
+			"baseStamina": 111,
+			"baseAttack": 112,
+			"baseDefense": 96
+		},
+		"types": [
+			{
+				"id": 13,
+				"name": "Electric",
+				"emoji": "⚡",
+				"color": "F8D030"
+			}
+		]
+	},
+	"25_2676": {
+		"name": "Pikachu",
+		"form": {
+			"id": 977,
+			"name": "Pop Star"
+		},
+		"id": 25,
+		"stats": {
+			"baseStamina": 111,
+			"baseAttack": 112,
+			"baseDefense": 96
+		},
+		"types": [
+			{
+				"id": 13,
+				"name": "Electric",
+				"emoji": "⚡",
+				"color": "F8D030"
+			}
+		]
+	},
+	"25_2677": {
+		"name": "Pikachu",
+		"form": {
+			"id": 977,
+			"name": "Rock Star"
+		},
+		"id": 25,
+		"stats": {
+			"baseStamina": 111,
+			"baseAttack": 112,
+			"baseDefense": 96
+		},
+		"types": [
+			{
+				"id": 13,
+				"name": "Electric",
+				"emoji": "⚡",
+				"color": "F8D030"
+			}
+		]
+	},
+	"25_2678": {
+		"name": "Pikachu",
+		"form": {
+			"id": 977,
+			"name": "Flying 5th Anniv"
+		},
+		"id": 25,
+		"stats": {
+			"baseStamina": 111,
+			"baseAttack": 112,
+			"baseDefense": 96
+		},
+		"types": [
+			{
+				"id": 13,
+				"name": "Electric",
+				"emoji": "⚡",
+				"color": "F8D030"
+			}
+		]
+	},
 	"26_980": {
 		"name": "Raichu",
 		"form": {
